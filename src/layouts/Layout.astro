@@ -13,9 +13,10 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
+  altFont?: boolean;
 }
 
-const { title, description, path, ogImage = '/images/og-default.jpg', noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, path, ogImage = '/images/og-default.jpg', noindex = false, jsonLd = [], altFont = false } = Astro.props;
 const canonical = new URL(path, business.siteUrl).toString();
 const allSchemas = [localBusinessSchema(), websiteSchema(), ...jsonLd];
 ---
@@ -54,7 +55,7 @@ const allSchemas = [localBusinessSchema(), websiteSchema(), ...jsonLd];
       <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
     ))}
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class:list={['flex min-h-screen flex-col', { 'font-alt': altFont }]}>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-wine focus:px-4 focus:py-2 focus:text-paper">
       Zum Hauptinhalt springen
     </a>
