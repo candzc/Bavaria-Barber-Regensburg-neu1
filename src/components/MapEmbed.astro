@@ -1,0 +1,63 @@
+---
+import { business, fullAddress } from '../lib/site';
+const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`;
+---
+
+<div id="map-consent-gate" class="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-card border border-stone-200 bg-paper-dim">
+  <div id="map-placeholder" class="flex flex-col items-center gap-3 px-6 text-center">
+    <p class="text-sm text-ink-soft">
+      Die interaktive Karte lädt Inhalte von Google Maps. Sie wird erst nach Ihrer Zustimmung eingebunden.
+    </p>
+    <button id="map-consent-button" type="button" class="min-h-[48px] rounded-sm bg-wine px-5 text-sm font-semibold text-paper hover:bg-wine-dark">
+      Karte laden und zustimmen
+    </button>
+    <a href={business.googleMapsUrl} target="_blank" rel="noopener" class="text-sm font-medium text-wine underline">
+      Alternativ: Route direkt in Google Maps öffnen
+    </a>
+  </div>
+  <iframe
+    id="map-iframe"
+    class="hidden absolute inset-0 h-full w-full"
+    title={`Anfahrtskarte zu ${business.name}, ${fullAddress}`}
+    data-src={embedSrc}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
+<script>
+  type Consent = { necessary: true; maps: boolean };
+  const KEY = 'cookie-consent';
+
+  function readConsent(): Consent | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? (JSON.parse(raw) as Consent) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function loadMap() {
+    const iframe = document.getElementById('map-iframe') as HTMLIFrameElement | null;
+    const placeholder = document.getElementById('map-placeholder');
+    if (!iframe || iframe.src) return;
+    iframe.src = iframe.dataset.src ?? '';
+    iframe.classList.remove('hidden');
+    placeholder?.classList.add('hidden');
+  }
+
+  const consent = readConsent();
+  if (consent?.maps) loadMap();
+
+  document.getElementById('map-consent-button')?.addEventListener('click', () => {
+    localStorage.setItem(KEY, JSON.stringify({ necessary: true, maps: true }));
+    document.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: { necessary: true, maps: true } }));
+    loadMap();
+  });
+
+  document.addEventListener('cookie-consent-changed', (e) => {
+    const detail = (e as CustomEvent<Consent>).detail;
+    if (detail?.maps) loadMap();
+  });
+</script>

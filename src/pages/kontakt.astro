@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+import { business, fullAddress, openingHours } from '../lib/site';
+
+const title = 'Kontakt Bavaria Barber Regensburg – Furtmayrstraße 2';
+const description = 'Bavaria Barber Regensburg in der Furtmayrstraße 2, Galgenberg. Ohne Termin vorbeikommen oder anrufen: 0941 74769. Öffnungszeiten und Anfahrt hier.';
+---
+
+<Layout title={title} description={description} path="/kontakt">
+  <section class="relative flex min-h-[36vh] items-end overflow-hidden bg-ink">
+    <img
+      src="/images/placeholder-kontakt-beton-textur.jpg"
+      alt="Fein strukturierte, dunkle Betonwand als ruhiger Hintergrund für den Kontaktbereich"
+      class="absolute inset-0 h-full w-full object-cover opacity-45"
+      width="1600"
+      height="1000"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-4 pb-12 pt-24 sm:px-6">
+      <h1 class="font-display text-3xl leading-tight text-paper sm:text-4xl md:text-5xl">
+        Kontakt zu Bavaria Barber Regensburg
+      </h1>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="grid gap-12 md:grid-cols-2">
+      <div class="reveal">
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">So erreichen Sie uns</h2>
+        <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+          Ein Termin ist bei Bavaria Barber Regensburg nicht nötig — kommen Sie während der Öffnungszeiten
+          vorbei. Bei Fragen erreichen Sie das Team telefonisch unter {business.phone}.
+        </p>
+
+        <address class="mt-8 space-y-3 text-base not-italic text-ink">
+          <p class="font-semibold">{business.name}</p>
+          <p>{fullAddress}</p>
+          <p>
+            Telefon: <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="text-wine underline hover:text-wine-dark">{business.phone}</a>
+          </p>
+          <p>
+            E-Mail: <a href={`mailto:${business.email}`} class="text-wine underline hover:text-wine-dark">{business.email}</a>
+          </p>
+          <p class="text-sm text-ink-soft">Ansprechpartner: Bakhtiyar Makos (Inhaber)</p>
+        </address>
+
+        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-8 inline-flex min-h-[48px] items-center rounded-sm bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
+          Jetzt anrufen: {business.phone}
+        </a>
+
+        <h2 class="mt-12 font-display text-xl text-ink">Öffnungszeiten</h2>
+        <table class="mt-4 w-full max-w-sm border-collapse text-sm">
+          <tbody>
+            {openingHours.map((d) => (
+              <tr class="border-b border-stone-200">
+                <th scope="row" class="py-2 text-left font-medium text-ink-soft">{d.day}</th>
+                <td class="py-2 text-right text-ink">{d.hours ?? 'geschlossen'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Anfahrt zum Galgenberg</h2>
+        <p class="mt-4 text-ink-soft">
+          Direkt vor dem Salon in der Furtmayrstraße finden Sie meist sofort einen Parkplatz — ganz ohne
+          Parkplatzsuche in der Regensburger Innenstadt.
+        </p>
+        <div class="mt-6">
+          <MapEmbed />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-stone-200 bg-paper-dim">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+      <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Muss ich vor dem Besuch einen Termin buchen?</h2>
+      <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+        Nein, ein Termin ist bei Bavaria Barber Regensburg nicht erforderlich. Kommen Sie während der
+        Öffnungszeiten vorbei; bei Fragen zur aktuellen Wartezeit hilft ein kurzer Anruf unter {business.phone}.
+      </p>
+    </div>
+  </section>
+</Layout>

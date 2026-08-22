@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { business } from '../lib/site';
+import { localBusinessSchema, websiteSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, path, ogImage = '/images/og-default.jpg', noindex = false, jsonLd = [] } = Astro.props;
+const canonical = new URL(path, business.siteUrl).toString();
+const allSchemas = [localBusinessSchema(), websiteSchema(), ...jsonLd];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, business.siteUrl).toString()} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={business.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, business.siteUrl).toString()} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#5e1c26" />
+
+    <script is:inline>
+      // Progressive Enhancement: erst mit JS wird der Start-Zustand für .reveal aktiv.
+      document.documentElement.classList.add('js');
+    </script>
+
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-wine focus:px-4 focus:py-2 focus:text-paper">
+      Zum Hauptinhalt springen
+    </a>
+    <Navbar />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+
+    <script>
+      // Scroll-Reveal: IntersectionObserver statt Scroll-Handler (kein Jank),
+      // respektiert prefers-reduced-motion über die CSS-Regel in global.css.
+      const items = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && items.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

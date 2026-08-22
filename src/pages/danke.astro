@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business } from '../lib/site';
+
+const title = 'Danke – Bavaria Barber Regensburg';
+const description = 'Vielen Dank für Ihre Nachricht an Bavaria Barber Regensburg. Wir melden uns oder Sie erreichen uns direkt telefonisch.';
+---
+
+<Layout title={title} description={description} path="/danke" noindex={true}>
+  <section class="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
+    <h1 class="font-display text-3xl text-ink sm:text-4xl">Vielen Dank!</h1>
+    <p class="mt-4 text-lg text-ink-soft">
+      Ihre Nachricht ist bei uns angekommen. Für schnelle Anliegen erreichen Sie Bavaria Barber Regensburg auch
+      direkt telefonisch.
+    </p>
+    <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-8 inline-flex min-h-[48px] items-center rounded-sm bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
+      {business.phone} anrufen
+    </a>
+    <a href="/" class="mt-4 text-sm font-medium text-ink-soft underline hover:text-wine">Zurück zur Startseite</a>
+  </section>
+</Layout>

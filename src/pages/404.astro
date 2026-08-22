@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business } from '../lib/site';
+
+const title = 'Seite nicht gefunden – Bavaria Barber Regensburg';
+const description = 'Diese Seite existiert nicht mehr. Finden Sie zurück zur Startseite, den Leistungen oder dem Kontakt von Bavaria Barber Regensburg.';
+---
+
+<Layout title={title} description={description} path="/404" noindex={true}>
+  <section class="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
+    <p class="font-display text-6xl text-wine">404</p>
+    <h1 class="mt-4 font-display text-2xl text-ink sm:text-3xl">Diese Seite gibt es nicht</h1>
+    <p class="mt-4 text-lg text-ink-soft">
+      Der aufgerufene Link ist nicht mehr gültig oder wurde falsch eingegeben. Nutzen Sie eine der folgenden
+      Seiten, um weiterzukommen.
+    </p>
+    <nav aria-label="Vorschläge nach Fehlerseite" class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="/" class="min-h-[48px] rounded-sm bg-wine px-6 py-3 text-sm font-semibold text-paper hover:bg-wine-dark">Zur Startseite</a>
+      <a href="/leistungen" class="min-h-[48px] rounded-sm border border-stone-400 px-6 py-3 text-sm font-semibold text-ink hover:border-wine">Leistungen ansehen</a>
+      <a href="/kontakt" class="min-h-[48px] rounded-sm border border-stone-400 px-6 py-3 text-sm font-semibold text-ink hover:border-wine">Kontakt &amp; Anfahrt</a>
+    </nav>
+    <p class="mt-8 text-sm text-ink-soft">
+      Oder rufen Sie uns direkt an: <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="text-wine underline">{business.phone}</a>
+    </p>
+  </section>
+</Layout>

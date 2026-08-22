@@ -1,0 +1,21 @@
+# Bewusste Entscheidung: KI-Crawler sind erlaubt, damit die Seite auch in
+# KI-gestützten Suchanfragen zitiert werden kann.
+User-agent: *
+Disallow:
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.bavaria-barber-regensburg.de/sitemap-index.xml

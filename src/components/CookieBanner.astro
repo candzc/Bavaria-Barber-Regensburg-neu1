@@ -1,0 +1,69 @@
+---
+// Cookie-Consent: steuert technisch, ob externe Inhalte (Google-Maps-Karte)
+// geladen werden dürfen. Cloudflare Web Analytics ist cookielos und braucht
+// keine Einwilligung. Kein GA4 in diesem Projekt (nicht gebucht).
+---
+
+<div
+  id="cookie-banner"
+  class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-stone-200 bg-paper px-4 py-5 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] sm:px-6"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-heading"
+>
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div class="max-w-2xl">
+      <p id="cookie-heading" class="font-display text-base font-semibold text-ink">Ihre Privatsphäre-Einstellungen</p>
+      <p class="mt-1 text-sm text-ink-soft">
+        Wir nutzen ausschließlich notwendige, cookielose Analyse (Cloudflare). Die interaktive Karte auf der
+        Kontaktseite lädt Inhalte von Google und wird erst nach Ihrer Zustimmung eingebunden.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <button id="cookie-reject" type="button" class="min-h-[48px] rounded-sm border border-stone-400 px-5 text-sm font-semibold text-ink-soft hover:border-ink">
+        Nur Notwendige
+      </button>
+      <button id="cookie-accept" type="button" class="min-h-[48px] rounded-sm bg-wine px-5 text-sm font-semibold text-paper hover:bg-wine-dark">
+        Alle akzeptieren
+      </button>
+      <a href="/cookie-einstellungen" class="flex min-h-[48px] items-center text-sm font-medium text-ink-soft underline hover:text-wine">
+        Einstellungen
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Consent = { necessary: true; maps: boolean };
+  const KEY = 'cookie-consent';
+
+  function readConsent(): Consent | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? (JSON.parse(raw) as Consent) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeConsent(consent: Consent) {
+    localStorage.setItem(KEY, JSON.stringify(consent));
+    document.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: consent }));
+  }
+
+  const banner = document.getElementById('cookie-banner');
+  const existing = readConsent();
+  if (!existing) {
+    banner?.classList.remove('hidden');
+  }
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    writeConsent({ necessary: true, maps: true });
+    banner?.classList.add('hidden');
+  });
+
+  document.getElementById('cookie-reject')?.addEventListener('click', () => {
+    writeConsent({ necessary: true, maps: false });
+    banner?.classList.add('hidden');
+  });
+</script>

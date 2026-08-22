@@ -1,0 +1,77 @@
+---
+import { mainNav, business } from '../lib/site';
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-stone-200 bg-paper/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+    <a href="/" class="font-display text-lg font-semibold tracking-wide text-ink sm:text-xl">
+      Bavaria Barber <span class="text-wine">Regensburg</span>
+    </a>
+
+    <nav aria-label="Hauptnavigation" class="hidden items-center gap-8 md:flex">
+      {mainNav.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'text-sm font-medium tracking-wide transition-colors hover:text-wine',
+            currentPath === item.href ? 'text-wine' : 'text-ink-soft',
+          ]}
+          aria-current={currentPath === item.href ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={`tel:${business.phoneHref.replace('tel:', '')}`}
+        class="inline-flex min-h-[48px] items-center rounded-sm bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
+      >
+        {business.phone}
+      </a>
+    </nav>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="flex h-12 w-12 items-center justify-center rounded-sm text-ink md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Menü öffnen"
+    >
+      <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg id="icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Mobile Navigation" class="hidden border-t border-stone-200 md:hidden">
+    <ul class="flex flex-col gap-1 px-4 py-3">
+      {mainNav.map((item) => (
+        <li>
+          <a href={item.href} class="block min-h-[48px] py-3 text-base font-medium text-ink-soft hover:text-wine">
+            {item.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-2 flex min-h-[48px] items-center justify-center rounded-sm bg-wine px-5 text-sm font-semibold text-paper">
+          Jetzt anrufen: {business.phone}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+    iconOpen?.classList.toggle('hidden', isOpen);
+    iconClose?.classList.toggle('hidden', !isOpen);
+  });
+</script>

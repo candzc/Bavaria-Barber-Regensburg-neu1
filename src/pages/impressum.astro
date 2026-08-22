@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business, fullAddress } from '../lib/site';
+
+const title = 'Impressum – Bavaria Barber Regensburg';
+const description = 'Impressum von Bavaria Barber Regensburg gemäß § 5 DDG: Anbieterkennzeichnung, Kontaktdaten und Rechtsform.';
+---
+
+<Layout title={title} description={description} path="/impressum">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="font-display text-3xl text-ink sm:text-4xl">Impressum</h1>
+
+    <div class="prose mt-8 max-w-none space-y-6 text-ink-soft">
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Angaben gemäß § 5 DDG</h2>
+        <p>
+          {business.legalName}<br />
+          Inhaber: {business.owner}<br />
+          {fullAddress}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Kontakt</h2>
+        <p>
+          Telefon: {business.phone}<br />
+          E-Mail: {business.email}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Handelsregister / USt-IdNr.</h2>
+        <p>[BITTE BESTÄTIGEN: Handelsregisternummer und Registergericht, falls vorhanden]</p>
+        <p>[BITTE BESTÄTIGEN: Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG, falls vorhanden]</p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>{business.owner}, {fullAddress}</p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">EU-Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{' '}
+          <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener" class="text-wine underline">
+            https://ec.europa.eu/consumers/odr/
+          </a>.
+          Unsere E-Mail-Adresse finden Sie oben. Wir sind nicht bereit oder verpflichtet, an
+          Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </div>
+
+      <p class="text-sm">
+        Hinweis: Dieser Impressumstext ist ein Entwurf auf Basis der bereitgestellten Unternehmensdaten. Vor
+        Livegang sollte er mit einem generierten eRecht24-Impressum abgeglichen und die markierten Angaben
+        bestätigt werden.
+      </p>
+    </div>
+  </section>
+</Layout>

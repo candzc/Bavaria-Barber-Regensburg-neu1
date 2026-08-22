@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business, fullAddress } from '../lib/site';
+
+const title = 'Datenschutzerklärung – Bavaria Barber Regensburg';
+const description = 'Datenschutzerklärung von Bavaria Barber Regensburg gemäß Art. 13/14 DSGVO: eingesetzte Dienste, Cookies und Ihre Rechte als Nutzer.';
+---
+
+<Layout title={title} description={description} path="/datenschutz">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="font-display text-3xl text-ink sm:text-4xl">Datenschutzerklärung</h1>
+
+    <div class="prose mt-8 max-w-none space-y-8 text-ink-soft">
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Verantwortlicher</h2>
+        <p>
+          {business.legalName}, {business.owner}, {fullAddress}<br />
+          E-Mail: {business.email} · Telefon: {business.phone}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Hosting</h2>
+        <p>[BITTE BESTÄTIGEN: Hosting-/Deployment-Anbieter dieser Website und dessen Serverstandort]</p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Cookielose Analyse: Cloudflare Web Analytics</h2>
+        <p>
+          Wir nutzen Cloudflare Web Analytics zur anonymen, aggregierten Auswertung der Seitenzugriffe. Der
+          Dienst setzt keine Cookies und speichert keine personenbezogenen, geräteübergreifend nachverfolgbaren
+          Kennungen. Rechtsgrundlage ist unser berechtigtes Interesse an der Reichweitenmessung (Art. 6 Abs. 1
+          lit. f DSGVO); eine Einwilligung ist hierfür nicht erforderlich.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Interaktive Karte (Google Maps)</h2>
+        <p>
+          Auf der Kontaktseite binden wir eine Karte von Google Maps ein. Diese wird erst geladen, nachdem Sie
+          im Cookie-Banner oder direkt auf der Kontaktseite aktiv zugestimmt haben. Erst mit dem Laden werden
+          Daten, unter anderem Ihre IP-Adresse, an Google LLC bzw. Google Ireland Limited übertragen.
+          Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TTDSG). Sie können Ihre
+          Einwilligung jederzeit über die{' '}
+          <a href="/cookie-einstellungen" class="text-wine underline">Cookie-Einstellungen</a> widerrufen.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Kontaktaufnahme</h2>
+        <p>
+          Diese Website enthält kein Kontaktformular. Wenn Sie uns per Telefon oder E-Mail kontaktieren,
+          verarbeiten wir die von Ihnen mitgeteilten Daten ausschließlich zur Bearbeitung Ihrer Anfrage
+          (Art. 6 Abs. 1 lit. b DSGVO).
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-ink">Ihre Rechte</h2>
+        <p>
+          Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+          Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung Ihrer personenbezogenen Daten. Wenden
+          Sie sich hierzu an die oben genannte E-Mail-Adresse. Zudem besteht ein Beschwerderecht bei der
+          zuständigen Datenschutzaufsichtsbehörde.
+        </p>
+      </div>
+
+      <p class="text-sm">
+        Hinweis: Dieser Text ist ein Entwurf auf Basis der tatsächlich eingesetzten Dienste. Vor Livegang sollte
+        er mit einer eRecht24-Datenschutzerklärung abgeglichen und die markierten Angaben (Hosting) ergänzt
+        werden.
+      </p>
+    </div>
+  </section>
+</Layout>

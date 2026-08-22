@@ -1,0 +1,6 @@
+.playwright-mcp/
+.env.local
+.env
+node_modules/
+dist/
+.astro/

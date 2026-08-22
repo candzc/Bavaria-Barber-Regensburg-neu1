@@ -1,0 +1,220 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business, fullAddress, usps, testimonials, partnerSalon } from '../lib/site';
+import { serviceSchema } from '../lib/schema';
+
+const title = 'Barber Regensburg – Herrenfriseur am Galgenberg | Bavaria Barber';
+const description = 'Barber in Regensburg-Galgenberg: Herrenschnitt, Fade & Bartpflege ohne Termin. Seit 2006 in der Furtmayrstraße. Jetzt spontan vorbeikommen oder anrufen.';
+
+const jsonLd = [
+  serviceSchema({
+    name: 'Herrenhaarschnitt und Bartpflege',
+    description: 'Klassischer Herrenschnitt, moderne Fade-Techniken und Bartpflege für Herren und Kinder in Regensburg-Galgenberg.',
+  }),
+];
+---
+
+<Layout title={title} description={description} path="/" jsonLd={jsonLd}>
+  <!-- Hero: bewusst minimalistisch — ein Satz, ein CTA, kein Textüberladen -->
+  <section class="relative flex min-h-[86vh] items-end overflow-hidden bg-ink">
+    <img
+      src="/images/placeholder-hero-holz-textur.jpg"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      width="1800"
+      height="1200"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/10"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-40 sm:px-6">
+      <h1 class="font-display text-4xl leading-tight text-paper sm:text-5xl md:text-6xl">
+        Barber Regensburg – Herrenfriseur und Bartpflege am Galgenberg
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-stone-200">
+        Als Barber in Regensburg sitzen Sie bei uns schnell auf dem Stuhl – lange Wartezeit ist bei uns die
+        Ausnahme. Am Galgenberg schneiden unsere Friseure Herren die Haare, pflegen den Bart und arbeiten von
+        klassisch bis Taper Fade, auch spontan und ohne festen Termin.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="inline-flex min-h-[48px] items-center rounded-sm bg-wine px-7 text-base font-semibold text-paper transition-colors hover:bg-wine-dark">
+          Jetzt anrufen: {business.phone}
+        </a>
+        <a href="/kontakt" class="inline-flex min-h-[48px] items-center rounded-sm border border-stone-400 px-7 text-base font-semibold text-paper transition-colors hover:border-paper">
+          Anfahrt &amp; Öffnungszeiten
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vertrauen & Informationsvermittlung -->
+  <section class="border-b border-stone-200 bg-paper-dim">
+    <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 md:items-center">
+      <div class="reveal md:col-span-1">
+        <p class="font-display text-4xl text-wine">4,8★</p>
+        <p class="mt-1 text-sm text-ink-soft">336 Google-Rezensionen</p>
+      </div>
+      <div class="reveal md:col-span-1">
+        <p class="font-display text-4xl text-wine">{business.founded}</p>
+        <p class="mt-1 text-sm text-ink-soft">Gegründet – über 20 Jahre Erfahrung</p>
+      </div>
+      <div class="reveal md:col-span-1">
+        <p class="font-display text-4xl text-wine">4</p>
+        <p class="mt-1 text-sm text-ink-soft">Friseure im Team</p>
+      </div>
+      <div class="reveal md:col-span-1">
+        <p class="font-display text-4xl text-wine">0</p>
+        <p class="mt-1 text-sm text-ink-soft">Terminzwang – einfach vorbeikommen</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Konkreter Kundennutzen -->
+  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Über 20 Jahre Friseur-Erfahrung am Galgenberg</h2>
+    <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+      Bakhtiyar Makos schneidet seit 2002 Haare in Regensburg und führt seit 2006 seinen eigenen Salon in der
+      Furtmayrstraße. In dieser Zeit hat er sich vom klassischen Herrenschnitt bis zu modernen Techniken wie
+      Fade und Undercut ein breites Können angeeignet. Dieses Wissen gibt er im Salon täglich an sein Team weiter.
+    </p>
+    <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+      Gemeinsam mit unserem Partner-Salon <a href={partnerSalon.url} target="_blank" rel="noopener" class="text-wine underline hover:text-wine-dark">{partnerSalon.name}</a> in
+      der Regensburger Maximilianstraße stehen wir für dasselbe Handwerksverständnis in der Innenstadt.
+    </p>
+  </section>
+
+  <!-- Leistungen Preview -->
+  <section class="border-t border-stone-200 bg-paper-dim">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center">
+      <div class="reveal order-2 md:order-1">
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Herrenhaarschnitt, Bartpflege und moderne Fade-Techniken</h2>
+        <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+          Bei Bavaria Barber Regensburg schneiden unsere Friseure klassische Herrenschnitte genauso sicher wie
+          Taper Fade, Undercut, Buzz Cut, Crew Cut oder Mullet. Auch Bartpflege und scharfe Konturen zählen zum
+          täglichen Handwerk unseres vierköpfigen Teams. Auf Wunsch schneiden wir auch Ihrem Sohn die Haare, mit
+          demselben Anspruch an Präzision.
+        </p>
+        <a href="/leistungen" class="mt-6 inline-flex min-h-[48px] items-center text-base font-semibold text-wine underline hover:text-wine-dark">
+          Alle Leistungen als Herrenfriseur ansehen
+        </a>
+      </div>
+      <div class="reveal order-1 aspect-[4/3] overflow-hidden rounded-card md:order-2">
+        <img
+          src="/images/placeholder-leistungen-teaser-tools.jpg"
+          alt="Friseurscheren in verschiedenen Ausführungen für Konturen und Übergänge, aufgereiht auf einem hellen Handtuch"
+          class="h-full w-full object-cover"
+          width="1200"
+          height="800"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA früh -->
+  <section class="bg-wine">
+    <div class="mx-auto max-w-6xl px-4 py-10 text-center sm:px-6">
+      <p class="font-display text-xl text-paper sm:text-2xl">Spontan vorbeikommen statt Termin vereinbaren</p>
+      <p class="mx-auto mt-2 max-w-2xl text-stone-200">
+        Sie kommen während der Öffnungszeiten einfach vorbei und werden der Reihe nach bedient, meist innerhalb
+        kurzer Wartezeit. An stark frequentierten Tagen wie Samstagvormittag kann sich die Wartezeit verlängern.
+      </p>
+      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-sm bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
+        {business.phone} anrufen
+      </a>
+    </div>
+  </section>
+
+  <!-- Vorteile / USPs -->
+  <section class="border-t border-stone-200 bg-paper-dim">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg für Sie leistet</h2>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {usps.map((usp) => (
+          <li class="reveal rounded-card border border-stone-200 bg-paper p-6">
+            <p class="font-display text-lg text-wine">{usp.title}</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">{usp.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Das sagen Kunden über ihren Besuch am Galgenberg</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      {testimonials.map((t) => (
+        <blockquote class="reveal rounded-card border border-stone-200 bg-paper-dim p-6">
+          <p class="text-ink-soft">„{t.text}"</p>
+          <cite class="mt-4 block text-sm font-semibold not-italic text-ink">— {t.author}, Google-Bewertung</cite>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+
+  <!-- Über uns Preview -->
+  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Ein Handwerk, das im Team weiterlebt</h2>
+    <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+      Was als Lehre begann, ist heute die Grundlage für jeden Schnitt bei Bavaria Barber Regensburg. Bakhtiyar
+      Makos gibt sein Können im Salon direkt an sein Team weiter, damit Sie bei jedem der vier Friseure dieselbe
+      Qualität bekommen.
+    </p>
+    <a href="/ueber-uns" class="reveal mt-4 inline-flex min-h-[48px] items-center text-base font-semibold text-wine underline hover:text-wine-dark">
+      Die Geschichte des Salons und das Team kennenlernen
+    </a>
+  </section>
+
+  <!-- FAQ -->
+  <section class="border-t border-stone-200 bg-paper-dim">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+      <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Häufige Fragen zum Barber am Galgenberg</h2>
+
+      <div class="mt-8 space-y-8">
+        <div class="reveal">
+          <h3 class="text-lg font-semibold text-ink">Braucht man bei Bavaria Barber Regensburg einen Termin?</h3>
+          <p class="mt-2 text-ink-soft">
+            Nein, ein Termin ist nicht nötig. Sie kommen während der Öffnungszeiten vorbei und werden der Reihe
+            nach bedient. Für Rückfragen erreichen Sie das Team unter {business.phone}.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 class="text-lg font-semibold text-ink">Gibt es Parkplätze am Salon in der Furtmayrstraße?</h3>
+          <p class="mt-2 text-ink-soft">
+            Ja, direkt vor dem Salon in der Furtmayrstraße 2 in Regensburg-Galgenberg finden Sie meist sofort
+            einen Parkplatz, ohne lange Parkplatzsuche in der Innenstadt.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 class="text-lg font-semibold text-ink">Kann man bei Bavaria Barber mit Karte bezahlen?</h3>
+          <p class="mt-2 text-ink-soft">
+            Ja, EC-Karte (Girocard) wird akzeptiert. Visa-Karten können aktuell leider nicht angenommen werden —
+            am besten EC-Karte oder Bargeld bereithalten.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 class="text-lg font-semibold text-ink">Schneidet Bavaria Barber auch Kindern die Haare?</h3>
+          <p class="mt-2 text-ink-soft">
+            Ja, das Team schneidet Herren und Kindern jeden Alters die Haare, mit demselben Anspruch an
+            Präzision wie beim klassischen Herrenschnitt oder Fade.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA wiederholt -->
+  <section class="bg-ink">
+    <div class="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+      <h2 class="font-display text-2xl text-paper sm:text-3xl">So erreichen Sie Ihren Barber in Regensburg</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-stone-200">
+        Sie erreichen Bavaria Barber Regensburg telefonisch unter {business.phone} oder kommen direkt in die{' '}
+        {fullAddress}. Alle Kontaktdaten und die Anfahrt im Detail finden Sie auf der{' '}
+        <a href="/kontakt" class="text-paper underline hover:text-stone-200">Kontaktseite mit Anfahrt am Galgenberg</a>.
+      </p>
+      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-sm bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
+        {business.phone} anrufen
+      </a>
+    </div>
+  </section>
+</Layout>

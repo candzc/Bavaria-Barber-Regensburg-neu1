@@ -1,0 +1,55 @@
+---
+import { mainNav, legalNav, business, fullAddress, openingHours } from '../lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-stone-200 bg-ink text-stone-200">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
+    <div>
+      <p class="font-display text-lg text-paper">Bavaria Barber Regensburg</p>
+      <p class="mt-3 text-sm leading-relaxed text-stone-400">
+        Herrenfriseur und Barber am Galgenberg — seit {business.founded} Handwerk mit Anspruch.
+      </p>
+    </div>
+
+    <nav aria-label="Footer-Navigation">
+      <p class="text-sm font-semibold text-paper">Navigation</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {mainNav.map((item) => (
+          <li><a href={item.href} class="text-stone-400 hover:text-paper">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <p class="text-sm font-semibold text-paper">Kontakt</p>
+      <address class="mt-3 space-y-2 text-sm not-italic text-stone-400">
+        <p>{fullAddress}</p>
+        <p><a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="hover:text-paper">{business.phone}</a></p>
+        <p><a href={`mailto:${business.email}`} class="hover:text-paper">{business.email}</a></p>
+      </address>
+      <p class="mt-4 text-sm font-semibold text-paper">Öffnungszeiten</p>
+      <ul class="mt-2 space-y-1 text-sm text-stone-400">
+        {openingHours.map((d) => (
+          <li class="flex justify-between gap-4">
+            <span>{d.day}</span>
+            <span>{d.hours ?? 'geschlossen'}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-paper">Rechtliches</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {legalNav.map((item) => (
+          <li><a href={item.href} class="text-stone-400 hover:text-paper">{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-stone-800 px-4 py-5 text-center text-xs text-stone-600 sm:px-6">
+    © {year} {business.legalName}
+  </div>
+</footer>
