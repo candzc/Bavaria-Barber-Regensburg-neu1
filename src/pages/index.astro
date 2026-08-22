@@ -130,7 +130,7 @@ const jsonLd = [
       <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg für Sie leistet</h2>
       <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {usps.map((usp) => (
-          <li class="reveal rounded-card border border-stone-200 bg-paper p-6">
+          <li class="reveal rounded-card border border-stone-200 bg-paper p-6 transition-all duration-200 hover:-translate-y-1 hover:border-wine hover:shadow-lg">
             <p class="font-display text-lg text-wine">{usp.title}</p>
             <p class="mt-2 text-sm leading-relaxed text-ink-soft">{usp.text}</p>
           </li>

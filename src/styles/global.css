@@ -1,9 +1,8 @@
 @import "tailwindcss";
-@import "@fontsource/playfair-display/500.css";
-@import "@fontsource/playfair-display/600.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
+@import "@fontsource/roboto/900.css";
 
 @theme {
   /* Farben: gedeckte Neutrals + ein Weinrot-Akzent. Bewusst kein klassisches
@@ -20,8 +19,11 @@
   --color-wine-dark: #43141c;
   --color-wine-soft: #8a3540;
 
-  --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
-  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  /* Schriftart ist laut Kundendaten-Datei bindend: Roboto (nicht die Fonts der
+     Referenz-Website). Headline-Charakter der Referenz (groß, fett, knapp)
+     wird über Gewicht/Tracking nachgebildet, nicht über eine andere Familie. */
+  --font-display: "Roboto", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Roboto", "Segoe UI", system-ui, sans-serif;
 
   --radius-card: 0.25rem;
 }
@@ -52,6 +54,8 @@ body {
 
 .font-display {
   font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 /* Sichtbarer, konsistenter Fokuszustand (Accessibility-Pflicht) */
