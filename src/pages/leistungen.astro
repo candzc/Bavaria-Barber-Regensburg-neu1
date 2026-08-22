@@ -8,40 +8,32 @@ const description = 'Herrenfriseur in Regensburg: Klassischer Schnitt, Taper Fad
 
 const jsonLd = [
   serviceSchema({
-    name: 'Herrenfriseur-Leistungen',
-    description: 'Klassischer Herrenschnitt, Fade-Techniken, Bartpflege und Kinderhaarschnitte bei Bavaria Barber Regensburg.',
+    name: 'Haarschnitt, Bartpflege, Gesichtspflege und Kombipakete',
+    description: 'Haarschnitt mit Waschen, Schneiden und Föhnen, Bartpflege von der Nassrasur bis zur Kontur, Gesichtspflege mit Fadentechnik und Warmwachs sowie Kombipakete bei Bavaria Barber Regensburg.',
   }),
 ];
 
-const services = [
+const leistungsbereiche = [
   {
-    title: 'Klassischer Herrenschnitt',
-    text: 'Der zeitlose Schnitt mit Schere und Maschine, sauber ausgearbeitet an Konturen und Übergängen — die Grundlage unseres Handwerks seit 2006.',
+    title: 'Haarschnitt mit Waschen, Schneiden und Föhnen',
+    text: 'Ihr Haarschnitt umfasst Waschen, Schneiden und Föhnen, ob kurz, mittellang oder lang. Auf Wunsch rundet eine Kopfmassage den Besuch ab. Vom klassischen Kurzhaarschnitt bis zu Taper Fade oder Undercut setzen wir Ihren Wunsch-Look um.',
   },
   {
-    title: 'Taper Fade & Undercut',
-    text: 'Weiche oder scharfe Übergänge an den Seiten, kombiniert mit mehr Länge oben — präzise gearbeitet für einen modernen, gepflegten Look.',
+    title: 'Bartpflege von der Nassrasur bis zur Kontur',
+    text: 'Zur Bartpflege gehören klassische Nassrasur, Bart-Maschinenschnitt und die komplette Behandlung mit Maschinenschnitt, Konturen und Nassrasur. Sie entscheiden, ob eine kurze Auffrischung reicht oder die vollständige Pflege gewünscht ist.',
   },
   {
-    title: 'Buzz Cut & Crew Cut',
-    text: 'Kurz, pflegeleicht und gleichmäßig gearbeitet — die richtige Wahl für alle, die es unkompliziert und sauber mögen.',
+    title: 'Gesichtspflege mit Fadentechnik und Warmwachs',
+    text: 'Zur Gesichtspflege zählen Augenbrauen zupfen in Fadentechnik sowie Haarentfernung mit Warmwachs an Nase, Ohren oder im gesamten Gesicht. Diese Leistungen buchen Sie einzeln oder kombiniert mit Haarschnitt und Bartpflege.',
   },
   {
-    title: 'Mullet & moderne Trendschnitte',
-    text: 'Auch aktuelle Trendschnitte wie den Mullet setzen unsere Friseure sicher um, abgestimmt auf Kopfform und Haarstruktur.',
-  },
-  {
-    title: 'Bartpflege & scharfe Konturen',
-    text: 'Bartschnitt, Kontur und Formgebung als eigenständige Leistung oder in Kombination mit dem Haarschnitt.',
-  },
-  {
-    title: 'Kinderhaarschnitte',
-    text: 'Herren und Kinder jeden Alters sind bei uns willkommen — mit demselben Anspruch an Präzision wie beim Erwachsenenschnitt.',
+    title: 'Kombipakete für Haarschnitt, Bart und Gesicht',
+    text: 'Unsere Pakete bündeln Waschen, Schneiden, Föhnen und Kopfmassage mit Augenbrauen zupfen oder Gesichtshaarentfernung. Die umfangreichste Variante ergänzt zusätzlich Nassrasur und eine Kopfmassage mit Haarwasser.',
   },
 ];
 ---
 
-<Layout title={title} description={description} path="/leistungen" jsonLd={jsonLd}>
+<Layout title={title} description={description} path="/leistungen" jsonLd={jsonLd} altFont>
   <section class="relative flex min-h-[46vh] items-end overflow-hidden bg-ink">
     <img
       src="/images/placeholder-leistungen-barber-tools.jpg"
@@ -54,67 +46,73 @@ const services = [
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
     <div class="relative mx-auto w-full max-w-6xl px-4 pb-14 pt-28 sm:px-6">
       <h1 class="font-display text-4xl text-paper sm:text-5xl md:text-6xl">
-        Herrenfriseur Regensburg – Leistungen bei Bavaria Barber
+        Herrenfriseur Regensburg – Haarschnitt, Bart und Gesichtspflege
       </h1>
+      <p class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-stone-200">
+        Als Herrenfriseur in Regensburg schneiden wir mehr als nur Haare – Bart und Gesicht gehören dazu. Am
+        Galgenberg bekommen Sie Haarschnitt, Bartpflege und Gesichtspflege aus einer Hand, inklusive Waschen,
+        Föhnen und auf Wunsch einer Kopfmassage. Viele Friseure haben ihr Handwerk bei uns gelernt, einige sind
+        heute selbst mit eigenem Salon selbstständig – diese Erfahrung fließt in jeden Schnitt ein.
+      </p>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
     <span class="eyebrow reveal">Leistungen</span>
-    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg als Herrenfriseur leistet</h2>
+    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Vier Leistungsbereiche aus einer Hand</h2>
     <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
-      Bavaria Barber Regensburg ist Ihr Herrenfriseur am Galgenberg für klassische Schnitte, moderne Fade-Techniken
-      und Bartpflege — ohne Termin, mit kurzer Wartezeit. Unser vierköpfiges Team arbeitet seit 2006 in der
-      Furtmayrstraße und bringt jede Frisur präzise auf den Punkt, für Herren und Kinder jeden Alters.
+      Wir bieten Haarschnitt, Bartpflege, Gesichtspflege und Kombipakete, die mehrere Leistungen bündeln. So sparen
+      Sie sich einen zweiten Termin bei einem separaten Kosmetikstudio für die Augenbrauen. Die Details zu jeder
+      Leistung finden Sie im Folgenden.
+    </p>
+  </section>
+
+  <section class="border-t border-stone-200 bg-paper-dim">
+    <div class="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-24">
+      <span class="eyebrow reveal">Im Detail</span>
+      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was in jeder Leistung enthalten ist</h2>
+      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
+        Jede Leistung führen wir mit dem gleichen Anspruch an Sorgfalt aus, ob Sie nur kurz zum Waschen und
+        Schneiden kommen oder ein komplettes Paket wünschen.
+      </p>
+      <div class="mt-10 grid gap-5 text-left sm:grid-cols-2">
+        {leistungsbereiche.map((s) => (
+          <article class="reveal rounded-card border border-stone-200 bg-paper p-6 transition-all duration-200 hover:-translate-y-1 hover:border-wine hover:shadow-lg">
+            <h3 class="text-lg font-semibold text-ink">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">{s.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
+    <span class="eyebrow reveal">Vor Ort</span>
+    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">So läuft Ihr Besuch bei uns ab</h2>
+    <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
+      Sie kommen ohne Termin vorbei und werden der Reihe nach bedient. Nach kurzer Absprache zum Wunsch-Schnitt
+      führen wir die Behandlung in einem Durchgang aus, bis das Ergebnis passt.
     </p>
   </section>
 
   <section class="border-t border-stone-200 bg-paper-dim">
     <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
-      <span class="eyebrow reveal">Ablauf</span>
-      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was Sie von jedem Besuch bei uns erwarten können</h2>
-      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
-        Jeder Schnitt bei Bavaria Barber Regensburg entsteht mit demselben Anspruch an Präzision, egal welcher
-        der vier Friseure Sie bedient. Dazu kommen kurze Wege: Der Salon liegt mit Parkplätzen direkt vor der Tür
-        in der Furtmayrstraße, und ein Besuch ist ohne vorherige Terminbuchung möglich.
-      </p>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-24">
-    <span class="eyebrow reveal">Übersicht</span>
-    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Unsere Leistungen als Herrenfriseur im Überblick</h2>
-    <p class="reveal mx-auto mt-6 max-w-3xl text-left text-lg leading-relaxed text-ink-soft">
-      Die folgende Übersicht zeigt die Schnitte und Leistungen, die unser Team bei Bavaria Barber Regensburg
-      regelmäßig für Herren und Kinder umsetzt.
-    </p>
-    <div class="mt-10 grid gap-5 text-left sm:grid-cols-2">
-      {services.map((s) => (
-        <article class="reveal rounded-card border border-stone-200 bg-paper p-6 transition-all duration-200 hover:-translate-y-1 hover:border-wine hover:shadow-lg">
-          <h3 class="text-lg font-semibold text-ink">{s.title}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{s.text}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="border-t border-stone-200 bg-paper-dim">
-    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
-      <span class="eyebrow reveal">Vor Ort</span>
-      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">So läuft Ihr Besuch bei Bavaria Barber ab</h2>
-      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
-        Sie kommen während der Öffnungszeiten vorbei, nennen kurz Ihren Wunsch und werden der Reihe nach von
-        einem unserer vier Friseure bedient. Eine vorherige Terminbuchung ist nicht nötig — an stark
-        frequentierten Tagen wie Samstagvormittag kann die Wartezeit etwas länger ausfallen.
-      </p>
+      <span class="eyebrow reveal">Vorteile</span>
+      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Warum Kunden zu uns zurückkommen</h2>
+      <ul class="mx-auto mt-6 max-w-2xl space-y-3 text-left text-ink-soft">
+        <li class="reveal flex gap-3"><span class="text-wine">—</span> <span><strong class="text-ink">Alles aus einer Hand</strong> – Haarschnitt, Bartpflege und Gesichtspflege in einem Termin</span></li>
+        <li class="reveal flex gap-3"><span class="text-wine">—</span> <span><strong class="text-ink">Spontan buchbar</strong> – ohne Terminzwang vorbeikommen</span></li>
+        <li class="reveal flex gap-3"><span class="text-wine">—</span> <span><strong class="text-ink">Parkplätze direkt vor der Tür</strong></span></li>
+      </ul>
     </div>
   </section>
 
   <section class="bg-wine">
     <div class="mx-auto max-w-6xl px-4 py-14 text-center sm:px-6">
-      <p class="font-display text-xl text-paper sm:text-2xl">Bereit für Ihren nächsten Schnitt?</p>
+      <p class="font-display text-xl text-paper sm:text-2xl">Vereinbaren Sie jetzt Ihren Besuch</p>
       <p class="mx-auto mt-2 max-w-2xl text-stone-200">
-        Kommen Sie spontan in die Furtmayrstraße 2 in Regensburg-Galgenberg oder rufen Sie uns bei Fragen an.
+        Kommen Sie in die Furtmayrstraße 2 in Regensburg-Galgenberg oder rufen Sie unter {business.phone} an.
+        Kontaktdaten und Anfahrt finden Sie über den Link <a href="/kontakt" class="text-paper underline hover:text-stone-200">Kontakt und Anfahrt am Galgenberg</a>.
       </p>
       <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
         {business.phone} anrufen
