@@ -53,15 +53,16 @@ const services = [
     />
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
     <div class="relative mx-auto w-full max-w-6xl px-4 pb-14 pt-28 sm:px-6">
-      <h1 class="font-display text-3xl leading-tight text-paper sm:text-4xl md:text-5xl">
+      <h1 class="font-display text-4xl text-paper sm:text-5xl md:text-6xl">
         Herrenfriseur Regensburg – Leistungen bei Bavaria Barber
       </h1>
     </div>
   </section>
 
-  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-    <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg als Herrenfriseur leistet</h2>
-    <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+  <section class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
+    <span class="eyebrow reveal">Leistungen</span>
+    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg als Herrenfriseur leistet</h2>
+    <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
       Bavaria Barber Regensburg ist Ihr Herrenfriseur am Galgenberg für klassische Schnitte, moderne Fade-Techniken
       und Bartpflege — ohne Termin, mit kurzer Wartezeit. Unser vierköpfiges Team arbeitet seit 2006 in der
       Furtmayrstraße und bringt jede Frisur präzise auf den Punkt, für Herren und Kinder jeden Alters.
@@ -69,9 +70,10 @@ const services = [
   </section>
 
   <section class="border-t border-stone-200 bg-paper-dim">
-    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Was Sie von jedem Besuch bei uns erwarten können</h2>
-      <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
+      <span class="eyebrow reveal">Ablauf</span>
+      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was Sie von jedem Besuch bei uns erwarten können</h2>
+      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
         Jeder Schnitt bei Bavaria Barber Regensburg entsteht mit demselben Anspruch an Präzision, egal welcher
         der vier Friseure Sie bedient. Dazu kommen kurze Wege: Der Salon liegt mit Parkplätzen direkt vor der Tür
         in der Furtmayrstraße, und ein Besuch ist ohne vorherige Terminbuchung möglich.
@@ -79,13 +81,14 @@ const services = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-    <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">Unsere Leistungen als Herrenfriseur im Überblick</h2>
-    <p class="reveal mt-4 max-w-3xl text-lg leading-relaxed text-ink-soft">
+  <section class="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-24">
+    <span class="eyebrow reveal">Übersicht</span>
+    <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Unsere Leistungen als Herrenfriseur im Überblick</h2>
+    <p class="reveal mx-auto mt-6 max-w-3xl text-left text-lg leading-relaxed text-ink-soft">
       Die folgende Übersicht zeigt die Schnitte und Leistungen, die unser Team bei Bavaria Barber Regensburg
       regelmäßig für Herren und Kinder umsetzt.
     </p>
-    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+    <div class="mt-10 grid gap-5 text-left sm:grid-cols-2">
       {services.map((s) => (
         <article class="reveal rounded-card border border-stone-200 bg-paper p-6 transition-all duration-200 hover:-translate-y-1 hover:border-wine hover:shadow-lg">
           <h3 class="text-lg font-semibold text-ink">{s.title}</h3>
@@ -96,9 +99,10 @@ const services = [
   </section>
 
   <section class="border-t border-stone-200 bg-paper-dim">
-    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <h2 class="reveal font-display text-2xl text-ink sm:text-3xl">So läuft Ihr Besuch bei Bavaria Barber ab</h2>
-      <p class="reveal mt-4 text-lg leading-relaxed text-ink-soft">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
+      <span class="eyebrow reveal">Vor Ort</span>
+      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">So läuft Ihr Besuch bei Bavaria Barber ab</h2>
+      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
         Sie kommen während der Öffnungszeiten vorbei, nennen kurz Ihren Wunsch und werden der Reihe nach von
         einem unserer vier Friseure bedient. Eine vorherige Terminbuchung ist nicht nötig — an stark
         frequentierten Tagen wie Samstagvormittag kann die Wartezeit etwas länger ausfallen.
@@ -112,7 +116,7 @@ const services = [
       <p class="mx-auto mt-2 max-w-2xl text-stone-200">
         Kommen Sie spontan in die Furtmayrstraße 2 in Regensburg-Galgenberg oder rufen Sie uns bei Fragen an.
       </p>
-      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-sm bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
+      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
         {business.phone} anrufen
       </a>
     </div>

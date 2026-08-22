@@ -20,12 +20,16 @@
   --color-wine-soft: #8a3540;
 
   /* Schriftart ist laut Kundendaten-Datei bindend: Roboto (nicht die Fonts der
-     Referenz-Website). Headline-Charakter der Referenz (groß, fett, knapp)
-     wird über Gewicht/Tracking nachgebildet, nicht über eine andere Familie. */
+     Referenz-Website). Headline-Charakter der Referenz (groß, fett, knapp,
+     enge Laufweite) wird über Gewicht/Tracking nachgebildet, nicht über eine
+     andere Familie. Referenz-Screenshots (lorolabs.ai, ScreenshotOne) zeigen
+     zusätzlich: sehr großzügiger Weißraum, durchgehend Pill-Buttons/Pill-Nav,
+     stark abgerundete Karten (dunkle Bento-Cards mit Icon+Headline+Text) und
+     kleine Eyebrow-Label vor Section-Headlines — das fließt strukturell ein. */
   --font-display: "Roboto", "Segoe UI", system-ui, sans-serif;
   --font-body: "Roboto", "Segoe UI", system-ui, sans-serif;
 
-  --radius-card: 0.25rem;
+  --radius-card: 1.25rem;
 }
 
 html {
@@ -55,7 +59,19 @@ body {
 .font-display {
   font-family: var(--font-display);
   font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+/* Eyebrow-Label vor Section-Headlines, referenzstiltypisch: klein, Versalien,
+   locker getrackt. */
+.eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-wine);
 }
 
 /* Sichtbarer, konsistenter Fokuszustand (Accessibility-Pflicht) */
