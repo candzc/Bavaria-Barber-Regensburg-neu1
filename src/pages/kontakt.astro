@@ -19,16 +19,17 @@ const description = 'Bavaria Barber Regensburg in der Furtmayrstraße 2, Galgenb
     />
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
     <div class="relative mx-auto w-full max-w-6xl px-4 pb-12 pt-24 sm:px-6">
-      <h1 class="font-display text-3xl leading-tight text-paper sm:text-4xl md:text-5xl">
+      <h1 class="font-display text-4xl text-paper sm:text-5xl md:text-6xl">
         Kontakt zu Bavaria Barber Regensburg
       </h1>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
     <div class="grid gap-12 md:grid-cols-2">
       <div class="reveal">
-        <h2 class="font-display text-2xl text-ink sm:text-3xl">So erreichen Sie uns</h2>
+        <span class="eyebrow">Kontakt</span>
+        <h2 class="mt-3 font-display text-2xl text-ink sm:text-3xl">So erreichen Sie uns</h2>
         <p class="mt-4 text-lg leading-relaxed text-ink-soft">
           Ein Termin ist bei Bavaria Barber Regensburg nicht nötig — kommen Sie während der Öffnungszeiten
           vorbei. Bei Fragen erreichen Sie das Team telefonisch unter {business.phone}.
@@ -46,7 +47,7 @@ const description = 'Bavaria Barber Regensburg in der Furtmayrstraße 2, Galgenb
           <p class="text-sm text-ink-soft">Ansprechpartner: Bakhtiyar Makos (Inhaber)</p>
         </address>
 
-        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-8 inline-flex min-h-[48px] items-center rounded-sm bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
+        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-8 inline-flex min-h-[48px] items-center rounded-full bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
           Jetzt anrufen: {business.phone}
         </a>
 
@@ -64,7 +65,8 @@ const description = 'Bavaria Barber Regensburg in der Furtmayrstraße 2, Galgenb
       </div>
 
       <div class="reveal">
-        <h2 class="font-display text-2xl text-ink sm:text-3xl">Anfahrt zum Galgenberg</h2>
+        <span class="eyebrow">Anfahrt</span>
+        <h2 class="mt-3 font-display text-2xl text-ink sm:text-3xl">Anfahrt zum Galgenberg</h2>
         <p class="mt-4 text-ink-soft">
           Direkt vor dem Salon in der Furtmayrstraße finden Sie meist sofort einen Parkplatz — ganz ohne
           Parkplatzsuche in der Regensburger Innenstadt.

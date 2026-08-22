@@ -3,8 +3,8 @@ import { mainNav, business } from '../lib/site';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-40 border-b border-stone-200 bg-paper/95 backdrop-blur">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+<header class="sticky top-0 z-40 px-3 pt-3 sm:px-4 sm:pt-4">
+  <div class="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-stone-200 bg-paper/95 px-4 py-3 shadow-sm backdrop-blur sm:px-6">
     <a href="/" class="font-display text-lg font-semibold tracking-wide text-ink sm:text-xl">
       Bavaria Barber <span class="text-wine">Regensburg</span>
     </a>
@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
       ))}
       <a
         href={`tel:${business.phoneHref.replace('tel:', '')}`}
-        class="inline-flex min-h-[48px] items-center rounded-sm bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
+        class="inline-flex min-h-[44px] items-center rounded-full bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
       >
         {business.phone}
       </a>
@@ -33,7 +33,7 @@ const currentPath = Astro.url.pathname;
     <button
       id="menu-toggle"
       type="button"
-      class="flex h-12 w-12 items-center justify-center rounded-sm text-ink md:hidden"
+      class="flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-paper-dim md:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Menü öffnen"
@@ -43,8 +43,8 @@ const currentPath = Astro.url.pathname;
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile Navigation" class="hidden border-t border-stone-200 md:hidden">
-    <ul class="flex flex-col gap-1 px-4 py-3">
+  <nav id="mobile-menu" aria-label="Mobile Navigation" class="hidden md:hidden">
+    <ul class="mx-auto mt-2 flex max-w-6xl flex-col gap-1 rounded-2xl border border-stone-200 bg-paper px-4 py-3 shadow-sm">
       {mainNav.map((item) => (
         <li>
           <a href={item.href} class="block min-h-[48px] py-3 text-base font-medium text-ink-soft hover:text-wine">
@@ -53,7 +53,7 @@ const currentPath = Astro.url.pathname;
         </li>
       ))}
       <li>
-        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-2 flex min-h-[48px] items-center justify-center rounded-sm bg-wine px-5 text-sm font-semibold text-paper">
+        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-2 flex min-h-[48px] items-center justify-center rounded-full bg-wine px-5 text-sm font-semibold text-paper">
           Jetzt anrufen: {business.phone}
         </a>
       </li>
