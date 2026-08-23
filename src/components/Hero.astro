@@ -1,0 +1,154 @@
+---
+// Hero-Sektion mit Video-Hintergrund, Grid-Parallax und Cursor-Spotlight-Reveal.
+// Struktur/Interaktion aus dem Claude-Design-Export übernommen (Video, Grid,
+// spotlight-maskierter zweiter Video-Layer), Inhalte/Farben/Schrift unverändert
+// aus dem bestehenden Designsystem (Weiß/Grau/Weinrot, Roboto/Comfortaa).
+import { business } from '../lib/site';
+---
+
+<section
+  id="hero"
+  data-hero
+  class="relative flex min-h-[86vh] items-end overflow-hidden bg-ink"
+>
+  <!-- Dekoratives Grid, leicht parallax zur Cursor-Position -->
+  <div class="pointer-events-none absolute -inset-10 z-0 overflow-hidden opacity-10">
+    <svg data-hero-grid class="h-[calc(100%+80px)] w-[calc(100%+80px)] will-change-transform" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hero-grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#b7afa7" stroke-width="0.6"></path>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hero-grid-pattern)"></rect>
+    </svg>
+  </div>
+
+  <!-- Basis-Video, gedämpft -->
+  <div class="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      poster="/images/hero-shears-foam-bowl.jpg"
+      class="absolute inset-0 h-full w-full object-cover"
+      style="filter: brightness(0.55) contrast(1.05) saturate(0.9);"
+    >
+      <source src="/videos/hero-foam-droplet.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Spotlight-Reveal: hellere Video-Variante, nur im Cursor-Radius sichtbar (via Maske) -->
+  <div
+    data-hero-spotlight
+    class="pointer-events-none absolute inset-0 z-[2] overflow-hidden will-change-[mask-image]"
+  >
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 h-full w-full object-cover"
+      style="filter: brightness(1.18) contrast(1.08) saturate(1.05);"
+    >
+      <source src="/videos/hero-foam-droplet.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="absolute inset-0 z-[3] bg-gradient-to-t from-ink via-ink/60 to-ink/10"></div>
+
+  <div class="relative z-[4] mx-auto w-full max-w-6xl px-4 pb-16 pt-40 sm:px-6">
+    <h1 class="font-display text-5xl text-paper sm:text-6xl md:text-7xl">
+      Barber Regensburg – Herrenfriseur und Bartpflege am Galgenberg
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-stone-200">
+      Als Barber in Regensburg sitzen Sie bei uns schnell auf dem Stuhl – lange Wartezeit ist bei uns die
+      Ausnahme. Am Galgenberg schneiden unsere Friseure Herren die Haare, pflegen den Bart und arbeiten von
+      klassisch bis Taper Fade, auch spontan und ohne festen Termin.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="inline-flex min-h-[48px] items-center rounded-full bg-wine px-7 text-base font-semibold text-paper transition-colors hover:bg-wine-dark">
+        Jetzt anrufen: {business.phone}
+      </a>
+      <a href="/kontakt" class="inline-flex min-h-[48px] items-center rounded-full border border-stone-400 px-7 text-base font-semibold text-paper transition-colors hover:border-paper">
+        Anfahrt &amp; Öffnungszeiten
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Vanilla-JS-Portierung des Spotlight-/Parallax-Effekts aus dem Design-Export
+  // (dort React/Canvas). Reagiert auf Maus/Touch, respektiert prefers-reduced-motion:
+  // dann bleibt die Spotlight-Maske aus und beide Video-Layer sind einfach sichtbar.
+  const section = document.querySelector<HTMLElement>('[data-hero]');
+  const grid = section?.querySelector<SVGSVGElement>('[data-hero-grid]');
+  const spotlight = section?.querySelector<HTMLElement>('[data-hero-spotlight]');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (section && grid && spotlight && !reduceMotion) {
+    let target = { x: 0, y: 0 };
+    let smooth = { x: 0, y: 0 };
+    let gridPos = { x: 0, y: 0 };
+    let initialized = false;
+    const radius = 260;
+
+    const setInitial = () => {
+      const r = section.getBoundingClientRect();
+      target = { x: r.width / 2, y: r.height * 0.65 };
+      smooth = { ...target };
+    };
+    setInitial();
+    window.addEventListener('resize', setInitial);
+
+    const onPointerMove = (e: PointerEvent | Touch) => {
+      const r = section.getBoundingClientRect();
+      target = { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (!initialized) {
+        smooth = { ...target };
+        initialized = true;
+      }
+    };
+    section.addEventListener('pointermove', (e) => onPointerMove(e));
+    section.addEventListener(
+      'touchmove',
+      (e) => {
+        if (e.touches[0]) onPointerMove(e.touches[0]);
+      },
+      { passive: true }
+    );
+
+    const loop = () => {
+      smooth.x += (target.x - smooth.x) * 0.1;
+      smooth.y += (target.y - smooth.y) * 0.1;
+
+      const cx = section.clientWidth / 2;
+      const cy = section.clientHeight / 2;
+      const gx = ((target.x - cx) / (cx || 1)) * 16;
+      const gy = ((target.y - cy) / (cy || 1)) * 16;
+      gridPos.x += (gx - gridPos.x) * 0.06;
+      gridPos.y += (gy - gridPos.y) * 0.06;
+      grid.style.transform = `translate3d(${gridPos.x.toFixed(2)}px, ${gridPos.y.toFixed(2)}px, 0)`;
+
+      const mask = `radial-gradient(circle ${radius}px at ${smooth.x.toFixed(1)}px ${smooth.y.toFixed(1)}px, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0.75) 60%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.25) 88%, rgba(255,255,255,0.08) 100%)`;
+      spotlight.style.maskImage = mask;
+      spotlight.style.webkitMaskImage = mask;
+
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  } else if (spotlight) {
+    // Ohne Animation: Spotlight-Layer einfach voll sichtbar lassen statt maskiert.
+    spotlight.style.maskImage = 'none';
+    spotlight.style.webkitMaskImage = 'none';
+  }
+
+  // Videos laufen bewusst gedrosselt (0.5x), wie im Design-Export.
+  section?.querySelectorAll('video').forEach((v) => {
+    v.playbackRate = 0.5;
+    v.addEventListener('loadedmetadata', () => {
+      v.playbackRate = 0.5;
+    });
+  });
+</script>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { business, fullAddress, usps, testimonials, partnerSalon } from '../lib/site';
 import { serviceSchema } from '../lib/schema';
 
@@ -15,36 +16,7 @@ const jsonLd = [
 ---
 
 <Layout title={title} description={description} path="/" jsonLd={jsonLd} altFont>
-  <!-- Hero: bewusst minimalistisch — ein Satz, ein CTA, kein Textüberladen -->
-  <section class="relative flex min-h-[86vh] items-end overflow-hidden bg-ink">
-    <img
-      src="/images/placeholder-hero-holz-textur.jpg"
-      alt=""
-      class="absolute inset-0 h-full w-full object-cover opacity-50"
-      width="1800"
-      height="1200"
-      fetchpriority="high"
-    />
-    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/10"></div>
-    <div class="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-40 sm:px-6">
-      <h1 class="font-display text-5xl text-paper sm:text-6xl md:text-7xl">
-        Barber Regensburg – Herrenfriseur und Bartpflege am Galgenberg
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-stone-200">
-        Als Barber in Regensburg sitzen Sie bei uns schnell auf dem Stuhl – lange Wartezeit ist bei uns die
-        Ausnahme. Am Galgenberg schneiden unsere Friseure Herren die Haare, pflegen den Bart und arbeiten von
-        klassisch bis Taper Fade, auch spontan und ohne festen Termin.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-4">
-        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="inline-flex min-h-[48px] items-center rounded-full bg-wine px-7 text-base font-semibold text-paper transition-colors hover:bg-wine-dark">
-          Jetzt anrufen: {business.phone}
-        </a>
-        <a href="/kontakt" class="inline-flex min-h-[48px] items-center rounded-full border border-stone-400 px-7 text-base font-semibold text-paper transition-colors hover:border-paper">
-          Anfahrt &amp; Öffnungszeiten
-        </a>
-      </div>
-    </div>
-  </section>
+  <Hero />
 
   <!-- Vertrauen & Informationsvermittlung -->
   <section class="border-b border-stone-200 bg-paper-dim">
