@@ -1,15 +1,18 @@
 ---
-// Hero-Sektion mit Video-Hintergrund, Grid-Parallax und Cursor-Spotlight-Reveal.
-// Struktur/Interaktion aus dem Claude-Design-Export übernommen (Video, Grid,
-// spotlight-maskierter zweiter Video-Layer), Inhalte/Farben/Schrift unverändert
-// aus dem bestehenden Designsystem (Weiß/Grau/Weinrot, Roboto/Comfortaa).
+// Hero: eigene Video-Sektion (Grid-Parallax + Cursor-Spotlight-Reveal) oben,
+// Headline/Text/CTA in eigener Sektion darunter auf normalem Hintergrund —
+// damit der Text nicht auf dem Video "schwimmt". Fade-Verlauf am unteren
+// Video-Rand blendet weich in die Hintergrundfarbe der Textsektion über.
+// Struktur/Interaktion aus dem Claude-Design-Export übernommen, Inhalte/
+// Farben/Schrift unverändert aus dem bestehenden Designsystem.
 import { business } from '../lib/site';
 ---
 
 <section
   id="hero"
   data-hero
-  class="relative flex min-h-[86vh] items-end overflow-hidden bg-ink"
+  class="relative h-[75vh] min-h-[480px] overflow-hidden bg-ink"
+  style="margin-top: calc(-1 * var(--navbar-height, 84px));"
 >
   <!-- Dekoratives Grid, leicht parallax zur Cursor-Position -->
   <div class="pointer-events-none absolute -inset-10 z-0 overflow-hidden opacity-10">
@@ -55,9 +58,12 @@ import { business } from '../lib/site';
     </video>
   </div>
 
-  <div class="absolute inset-0 z-[3] bg-gradient-to-t from-ink via-ink/60 to-ink/10"></div>
+  <!-- Weicher Übergang unten: Video blendet in den Hintergrund der Textsektion über -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-40 bg-gradient-to-b from-transparent to-ink"></div>
+</section>
 
-  <div class="relative z-[4] mx-auto w-full max-w-6xl px-4 pb-16 pt-40 sm:px-6">
+<section class="relative bg-ink px-4 pb-16 pt-10 sm:px-6">
+  <div class="mx-auto w-full max-w-6xl">
     <h1 class="font-display text-5xl text-paper sm:text-6xl md:text-7xl">
       Barber Regensburg – Herrenfriseur und Bartpflege am Galgenberg
     </h1>
