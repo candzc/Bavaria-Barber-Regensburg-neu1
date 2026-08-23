@@ -1,25 +1,29 @@
 ---
+// Zentrierte Pill-Navbar, fixed positioniert, dunkler Hintergrund (--color-ink).
+// Ab 900px Desktop-Nav + CTA sichtbar, darunter Mobile-Toggle + Vollbild-Menü.
+// Über der Hero-Videosektion (#hero, nur Startseite) transparent, sonst solide
+// Pill — siehe Script unten (IntersectionObserver) und Kommentar bei .nav-on-hero.
 import { mainNav, business } from '../lib/site';
 const currentPath = Astro.url.pathname;
 ---
 
-<header data-navbar class="sticky top-0 z-40 px-3 pt-3 transition-colors duration-300 sm:px-4 sm:pt-4">
+<header data-navbar class="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-colors duration-300 sm:px-4 sm:pt-4">
   <div
     data-navbar-pill
-    class="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-stone-200 bg-paper/95 px-4 py-3 shadow-sm backdrop-blur transition-all duration-300 sm:px-6"
+    class="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-paper/10 bg-ink/95 px-4 py-3 shadow-lg backdrop-blur transition-all duration-300 sm:px-6"
   >
-    <a data-navbar-logo href="/" class="font-display text-lg font-semibold tracking-wide text-ink transition-colors duration-300 sm:text-xl">
-      Bavaria Barber <span data-navbar-accent class="text-wine transition-colors duration-300">Regensburg</span>
+    <a href="/" class="font-display text-lg font-semibold tracking-wide text-paper sm:text-xl">
+      Bavaria Barber <span class="text-wine-soft">Regensburg</span>
     </a>
 
-    <nav aria-label="Hauptnavigation" class="hidden items-center gap-8 md:flex">
+    <nav aria-label="Hauptnavigation" class="hidden items-center gap-1 min-[900px]:flex">
       {mainNav.map((item) => (
         <a
           href={item.href}
           data-navbar-link
           class:list={[
-            'text-sm font-medium tracking-wide transition-colors duration-300 hover:text-wine',
-            currentPath === item.href ? 'text-wine' : 'text-ink-soft',
+            'relative px-3 py-1.5 text-sm font-medium tracking-wide text-paper/75 transition-colors duration-200 hover:text-paper',
+            currentPath === item.href && 'text-paper',
           ]}
           aria-current={currentPath === item.href ? 'page' : undefined}
         >
@@ -28,7 +32,7 @@ const currentPath = Astro.url.pathname;
       ))}
       <a
         href={`tel:${business.phoneHref.replace('tel:', '')}`}
-        class="inline-flex min-h-[44px] items-center rounded-full bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
+        class="ml-3 inline-flex min-h-[44px] items-center rounded-full bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
       >
         {business.phone}
       </a>
@@ -36,9 +40,8 @@ const currentPath = Astro.url.pathname;
 
     <button
       id="menu-toggle"
-      data-navbar-toggle
       type="button"
-      class="flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors duration-300 hover:bg-paper-dim md:hidden"
+      class="flex h-11 w-11 items-center justify-center rounded-full text-paper transition-colors duration-200 hover:bg-paper/10 min-[900px]:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Menü öffnen"
@@ -48,75 +51,137 @@ const currentPath = Astro.url.pathname;
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile Navigation" class="hidden md:hidden">
-    <ul class="mx-auto mt-2 flex max-w-6xl flex-col gap-1 rounded-2xl border border-stone-200 bg-paper px-4 py-3 shadow-sm">
-      {mainNav.map((item) => (
-        <li>
-          <a href={item.href} class="block min-h-[48px] py-3 text-base font-medium text-ink-soft hover:text-wine">
+  <nav id="mobile-menu" aria-label="Mobile Navigation" class="fixed inset-0 z-[60] hidden flex-col justify-center bg-ink px-8 min-[900px]:hidden">
+    <button
+      id="mobile-menu-close"
+      type="button"
+      class="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full text-paper hover:bg-paper/10"
+      aria-label="Menü schließen"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <ul class="flex flex-col items-center gap-6">
+      {mainNav.map((item, i) => (
+        <li data-mobile-link style={`transition-delay:${80 + i * 60}ms`}>
+          <a href={item.href} class="text-3xl font-medium tracking-tight text-paper/90 transition-colors hover:text-paper">
             {item.label}
           </a>
         </li>
       ))}
-      <li>
-        <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-2 flex min-h-[48px] items-center justify-center rounded-full bg-wine px-5 text-sm font-semibold text-paper">
-          Jetzt anrufen: {business.phone}
-        </a>
-      </li>
     </ul>
+    <div data-mobile-link style={`transition-delay:${80 + mainNav.length * 60}ms`} class="mt-10 flex justify-center">
+      <a
+        href={`tel:${business.phoneHref.replace('tel:', '')}`}
+        class="inline-flex min-h-[48px] w-full max-w-xs items-center justify-center rounded-full bg-wine px-6 text-base font-semibold text-paper hover:bg-wine-dark"
+      >
+        Jetzt anrufen: {business.phone}
+      </a>
+    </div>
   </nav>
 </header>
 
 <style>
-  /* Transparente Navbar über dem Hero-Video: Pill-Optik/dunkle Schrift weicht
-     hellem Kontrast auf transparentem Grund. Nur aktiv, solange #hero (Startseite)
-     im Viewport ist — siehe Script unten. Andere Seiten ohne #hero bleiben bei
-     der normalen Pill-Navbar, keine Verhaltensänderung dort. */
+  /* Link-Hover-Animation: Unterstrich zieht sich beim Hover/aktiver Seite ein. */
+  [data-navbar-link]::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 2px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.25s ease;
+  }
+  [data-navbar-link]:hover::after,
+  [data-navbar-link][aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Mobile-Menü: Fade-in + gestaffeltes Einfliegen der Links, respektiert
+     prefers-reduced-motion (siehe globaler .js-Umgang in global.css: hier
+     zusätzlich direkt geprüft, weil das Menü kein .reveal-Element ist). */
+  #mobile-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+  }
+  #mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  #mobile-menu [data-mobile-link] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  #mobile-menu.is-open [data-mobile-link] {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu,
+    #mobile-menu [data-mobile-link] {
+      transition: none;
+    }
+  }
+
+  /* Transparente Navbar über dem Hero-Video (nur Startseite, siehe Script):
+     Pill-Hintergrund/Rand/Schatten aus, Textfarben bleiben unverändert hell,
+     da die Pill ohnehin permanent dunkel/hell-auf-dunkel gestaltet ist. */
   header.nav-on-hero [data-navbar-pill] {
     border-color: transparent;
     background-color: transparent;
     box-shadow: none;
     backdrop-filter: none;
   }
-  header.nav-on-hero [data-navbar-logo] {
-    color: var(--color-paper);
-  }
-  header.nav-on-hero [data-navbar-accent] {
-    color: var(--color-wine-soft);
-  }
-  header.nav-on-hero [data-navbar-link] {
-    color: rgba(255, 255, 255, 0.85);
-  }
-  header.nav-on-hero [data-navbar-link]:hover {
-    color: var(--color-paper);
-  }
-  header.nav-on-hero [data-navbar-link][aria-current='page'] {
-    color: var(--color-paper);
-  }
-  header.nav-on-hero [data-navbar-toggle] {
-    color: var(--color-paper);
-  }
-  header.nav-on-hero [data-navbar-toggle]:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
 </style>
 
 <script>
   const toggle = document.getElementById('menu-toggle');
+  const closeBtn = document.getElementById('mobile-menu-close');
   const menu = document.getElementById('mobile-menu');
   const iconOpen = document.getElementById('icon-open');
   const iconClose = document.getElementById('icon-close');
 
-  toggle?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('hidden') === false;
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
-    iconOpen?.classList.toggle('hidden', isOpen);
-    iconClose?.classList.toggle('hidden', !isOpen);
-  });
+  const openMenu = () => {
+    menu?.classList.remove('hidden');
+    menu?.classList.add('flex');
+    requestAnimationFrame(() => menu?.classList.add('is-open'));
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Menü schließen');
+    iconOpen?.classList.add('hidden');
+    iconClose?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeMenu = () => {
+    menu?.classList.remove('is-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Menü öffnen');
+    iconOpen?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!menu?.classList.contains('is-open')) {
+        menu?.classList.add('hidden');
+        menu?.classList.remove('flex');
+      }
+    }, 250);
+  };
 
-  // Navbar-Höhe als CSS-Variable bereitstellen: die Hero-Sektion zieht sich
-  // damit exakt um diesen Betrag nach oben, unter die (sticky, aber leere/
-  // transparente) Navbar — sonst bliebe dort eine helle Lücke vor dem Video.
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+  closeBtn?.addEventListener('click', closeMenu);
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  // Navbar-Höhe als CSS-Variable bereitstellen: <main> nutzt sie als
+  // padding-top (Layout.astro), die Hero-Sektion zieht sich per negativem
+  // Margin exakt darunter (Hero.astro) — dieselbe Quelle für beide, damit
+  // nichts auseinanderdriftet, egal wie hoch die Navbar tatsächlich ist.
   const header = document.querySelector<HTMLElement>('[data-navbar]');
   const setNavbarHeightVar = () => {
     if (!header) return;
@@ -127,7 +192,7 @@ const currentPath = Astro.url.pathname;
   window.addEventListener('resize', setNavbarHeightVar);
 
   // Transparente Navbar, solange der Video-Hero im Viewport ist; sobald er
-  // durchgescrollt ist, zurück zur weißen Pill-Optik. Seiten ohne #hero
+  // durchgescrollt ist, zurück zur soliden Ink-Pill. Seiten ohne #hero
   // (Leistungen, Über uns, Kontakt, ...) sind davon nicht betroffen.
   const hero = document.getElementById('hero');
   if (header && hero && 'IntersectionObserver' in window) {
