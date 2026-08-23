@@ -26,15 +26,27 @@ import { business } from '../lib/site';
     </svg>
   </div>
 
-  <!-- Basis-Video, gedämpft -->
+  <!-- Basis-Video, gedämpft. Poster-Bild ist Frame 0 desselben Videos (per ffmpeg
+       extrahiert) — optisch identisch zum Video-Start, kein sichtbarer Bildwechsel.
+       Zusätzlich als eigenes <img> überlagert (statt nur poster-Attribut), damit
+       ein echter CSS-Fade beim Wechsel zum Video möglich ist (siehe Script unten). -->
   <div class="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+    <img
+      data-hero-poster
+      src="/images/hero-poster.jpg"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover object-[center_25%] transition-opacity duration-700 ease-out"
+      style="filter: brightness(0.55) contrast(1.05) saturate(0.9);"
+    />
     <video
+      data-hero-video-base
       autoplay
       loop
       muted
       playsinline
-      poster="/images/hero-shears-foam-bowl.jpg"
-      class="absolute inset-0 h-full w-full object-cover"
+      preload="auto"
+      poster="/images/hero-poster.jpg"
+      class="absolute inset-0 h-full w-full object-cover object-[center_25%]"
       style="filter: brightness(0.55) contrast(1.05) saturate(0.9);"
     >
       <source src="/videos/hero-foam-droplet.mp4" type="video/mp4" />
@@ -51,7 +63,9 @@ import { business } from '../lib/site';
       loop
       muted
       playsinline
-      class="absolute inset-0 h-full w-full object-cover"
+      preload="auto"
+      poster="/images/hero-poster.jpg"
+      class="absolute inset-0 h-full w-full object-cover object-[center_25%]"
       style="filter: brightness(1.18) contrast(1.08) saturate(1.05);"
     >
       <source src="/videos/hero-foam-droplet.mp4" type="video/mp4" />
@@ -157,4 +171,21 @@ import { business } from '../lib/site';
       v.playbackRate = 0.5;
     });
   });
+
+  // Poster-Bild weich ausblenden, sobald das Basis-Video tatsächlich läuft
+  // (nicht schon bei "geladen", sondern erst bei echtem Frame-Rendering) —
+  // macht den Wechsel weich, falls die Verbindung langsam ist und der
+  // Poster länger sichtbar bleibt als üblich.
+  const posterImg = section?.querySelector<HTMLImageElement>('[data-hero-poster]');
+  const baseVideo = section?.querySelector<HTMLVideoElement>('[data-hero-video-base]');
+  if (posterImg && baseVideo) {
+    const hidePoster = () => {
+      posterImg.style.opacity = '0';
+    };
+    if (baseVideo.readyState >= 3) {
+      hidePoster();
+    } else {
+      baseVideo.addEventListener('playing', hidePoster, { once: true });
+    }
+  }
 </script>
