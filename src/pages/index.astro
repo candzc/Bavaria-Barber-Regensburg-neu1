@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import { LiquidMetalButton } from '../components/LiquidMetalButton';
+import { GlowyWavesHero } from '../components/GlowyWavesHero';
+import { FaqAccordion, homeFaqData } from '../components/FaqAccordion';
 import { business, fullAddress, usps, testimonials, partnerSalon } from '../lib/site';
 import { serviceSchema } from '../lib/schema';
 
@@ -19,26 +22,7 @@ const jsonLd = [
   <Hero />
 
   <!-- Vertrauen & Informationsvermittlung -->
-  <section class="border-b border-stone-200 bg-paper-dim">
-    <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 md:items-center">
-      <div class="reveal md:col-span-1">
-        <p class="font-display text-4xl text-wine">4,8★</p>
-        <p class="mt-1 text-sm text-ink-soft">336 Google-Rezensionen</p>
-      </div>
-      <div class="reveal md:col-span-1">
-        <p class="font-display text-4xl text-wine">{business.founded}</p>
-        <p class="mt-1 text-sm text-ink-soft">Gegründet – über 20 Jahre Erfahrung</p>
-      </div>
-      <div class="reveal md:col-span-1">
-        <p class="font-display text-4xl text-wine">4</p>
-        <p class="mt-1 text-sm text-ink-soft">Friseure im Team</p>
-      </div>
-      <div class="reveal md:col-span-1">
-        <p class="font-display text-4xl text-wine">0</p>
-        <p class="mt-1 text-sm text-ink-soft">Terminzwang – einfach vorbeikommen</p>
-      </div>
-    </div>
-  </section>
+  <GlowyWavesHero client:visible />
 
   <!-- Konkreter Kundennutzen -->
   <section class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
@@ -92,9 +76,14 @@ const jsonLd = [
         Sie kommen während der Öffnungszeiten einfach vorbei und werden der Reihe nach bedient, meist innerhalb
         kurzer Wartezeit. An stark frequentierten Tagen wie Samstagvormittag kann sich die Wartezeit verlängern.
       </p>
-      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
-        {business.phone} anrufen
-      </a>
+      <div class="mt-6 flex justify-center">
+        <LiquidMetalButton
+          client:idle
+          label={`${business.phone} anrufen`}
+          href={`tel:${business.phoneHref.replace('tel:', '')}`}
+          variant="dark"
+        />
+      </div>
     </div>
   </section>
 
@@ -152,35 +141,8 @@ const jsonLd = [
       <span class="eyebrow reveal">FAQ</span>
       <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Häufige Fragen zum Barber am Galgenberg</h2>
 
-      <div class="mt-10 space-y-4 text-left">
-        <div class="reveal rounded-card border border-stone-200 bg-paper p-6">
-          <h3 class="text-lg font-semibold text-ink">Braucht man bei Bavaria Barber Regensburg einen Termin?</h3>
-          <p class="mt-2 text-ink-soft">
-            Nein, ein Termin ist nicht nötig. Sie kommen während der Öffnungszeiten vorbei und werden der Reihe
-            nach bedient. Für Rückfragen erreichen Sie das Team unter {business.phone}.
-          </p>
-        </div>
-        <div class="reveal rounded-card border border-stone-200 bg-paper p-6">
-          <h3 class="text-lg font-semibold text-ink">Gibt es Parkplätze am Salon in der Furtmayrstraße?</h3>
-          <p class="mt-2 text-ink-soft">
-            Ja, direkt vor dem Salon in der Furtmayrstraße 2 in Regensburg-Galgenberg finden Sie meist sofort
-            einen Parkplatz, ohne lange Parkplatzsuche in der Innenstadt.
-          </p>
-        </div>
-        <div class="reveal rounded-card border border-stone-200 bg-paper p-6">
-          <h3 class="text-lg font-semibold text-ink">Kann man bei Bavaria Barber mit Karte bezahlen?</h3>
-          <p class="mt-2 text-ink-soft">
-            Ja, EC-Karte (Girocard) wird akzeptiert. Visa-Karten können aktuell leider nicht angenommen werden —
-            am besten EC-Karte oder Bargeld bereithalten.
-          </p>
-        </div>
-        <div class="reveal rounded-card border border-stone-200 bg-paper p-6">
-          <h3 class="text-lg font-semibold text-ink">Schneidet Bavaria Barber auch Kindern die Haare?</h3>
-          <p class="mt-2 text-ink-soft">
-            Ja, das Team schneidet Herren und Kindern jeden Alters die Haare, mit demselben Anspruch an
-            Präzision wie beim klassischen Herrenschnitt oder Fade.
-          </p>
-        </div>
+      <div class="reveal mt-10">
+        <FaqAccordion client:visible data={homeFaqData} className="mx-auto max-w-2xl p-0" />
       </div>
     </div>
   </section>
@@ -194,9 +156,14 @@ const jsonLd = [
         {fullAddress}. Alle Kontaktdaten und die Anfahrt im Detail finden Sie auf der{' '}
         <a href="/kontakt" class="text-paper underline hover:text-stone-200">Kontaktseite mit Anfahrt am Galgenberg</a>.
       </p>
-      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
-        {business.phone} anrufen
-      </a>
+      <div class="mt-6 flex justify-center">
+        <LiquidMetalButton
+          client:idle
+          label={`${business.phone} anrufen`}
+          href={`tel:${business.phoneHref.replace('tel:', '')}`}
+          variant="dark"
+        />
+      </div>
     </div>
   </section>
 </Layout>

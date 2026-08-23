@@ -39,6 +39,19 @@
   --font-alt: "Comfortaa", "Segoe UI", system-ui, sans-serif;
 
   --radius-card: 1.25rem;
+
+  /* Alias-Tokens für importierte Drittanbieter-Komponenten (GlowyWavesHero,
+     FaqAccordion), die generische shadcn-Variablennamen verwenden. Zeigen
+     bewusst auf die echten Marken-Tokens oben, nicht auf shadcn-Defaults. */
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-ink);
+  --color-primary: var(--color-wine);
+  --color-primary-foreground: var(--color-paper);
+  --color-secondary: var(--color-stone-200);
+  --color-muted: var(--color-paper-dim);
+  --color-muted-foreground: var(--color-stone-600);
+  --color-accent: var(--color-wine-soft);
+  --color-border: var(--color-stone-200);
 }
 
 html {

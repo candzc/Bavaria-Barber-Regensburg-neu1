@@ -4,6 +4,7 @@
 // Über der Hero-Videosektion (#hero, nur Startseite) transparent, sonst solide
 // Pill — siehe Script unten (IntersectionObserver) und Kommentar bei .nav-on-hero.
 import { mainNav, business } from '../lib/site';
+import { LiquidMetalButton } from './LiquidMetalButton';
 const currentPath = Astro.url.pathname;
 ---
 
@@ -13,7 +14,7 @@ const currentPath = Astro.url.pathname;
     class="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-paper/10 bg-ink/95 px-4 py-3 shadow-lg backdrop-blur transition-all duration-300 sm:px-6"
   >
     <a href="/" class="font-display text-lg font-semibold tracking-wide text-paper sm:text-xl">
-      Bavaria Barber <span class="text-wine-soft">Regensburg</span>
+      Bavaria
     </a>
 
     <nav aria-label="Hauptnavigation" class="hidden items-center gap-1 min-[900px]:flex">
@@ -30,12 +31,14 @@ const currentPath = Astro.url.pathname;
           {item.label}
         </a>
       ))}
-      <a
-        href={`tel:${business.phoneHref.replace('tel:', '')}`}
-        class="ml-3 inline-flex min-h-[44px] items-center rounded-full bg-wine px-5 text-sm font-semibold text-paper transition-colors hover:bg-wine-dark"
-      >
-        {business.phone}
-      </a>
+      <div class="ml-3">
+        <LiquidMetalButton
+          client:idle
+          label={business.phone}
+          href={`tel:${business.phoneHref.replace('tel:', '')}`}
+          variant="dark"
+        />
+      </div>
     </nav>
 
     <button
@@ -70,12 +73,13 @@ const currentPath = Astro.url.pathname;
       ))}
     </ul>
     <div data-mobile-link style={`transition-delay:${80 + mainNav.length * 60}ms`} class="mt-10 flex justify-center">
-      <a
+      <LiquidMetalButton
+        client:idle
+        label={`Jetzt anrufen: ${business.phone}`}
         href={`tel:${business.phoneHref.replace('tel:', '')}`}
-        class="inline-flex min-h-[48px] w-full max-w-xs items-center justify-center rounded-full bg-wine px-6 text-base font-semibold text-paper hover:bg-wine-dark"
-      >
-        Jetzt anrufen: {business.phone}
-      </a>
+        variant="dark"
+        className="w-full max-w-xs"
+      />
     </div>
   </nav>
 </header>
