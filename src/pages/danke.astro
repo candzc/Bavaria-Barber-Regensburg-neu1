@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { business } from '../lib/site';
+import { LiquidMetalButton } from '../components/LiquidMetalButton';
 
 const title = 'Danke – Bavaria Barber Regensburg';
 const description = 'Vielen Dank für Ihre Nachricht an Bavaria Barber Regensburg. Wir melden uns oder Sie erreichen uns direkt telefonisch.';
@@ -13,9 +14,14 @@ const description = 'Vielen Dank für Ihre Nachricht an Bavaria Barber Regensbur
       Ihre Nachricht ist bei uns angekommen. Für schnelle Anliegen erreichen Sie Bavaria Barber Regensburg auch
       direkt telefonisch.
     </p>
-    <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-8 inline-flex min-h-[48px] items-center rounded-full bg-wine px-7 text-base font-semibold text-paper hover:bg-wine-dark">
-      {business.phone} anrufen
-    </a>
+    <div class="mt-8">
+      <LiquidMetalButton
+        client:idle
+        label={`${business.phone} anrufen`}
+        href={`tel:${business.phoneHref.replace('tel:', '')}`}
+        variant="light"
+      />
+    </div>
     <a href="/" class="mt-4 text-sm font-medium text-ink-soft underline hover:text-wine">Zurück zur Startseite</a>
   </section>
 </Layout>

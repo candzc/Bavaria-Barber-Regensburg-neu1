@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { business } from '../lib/site';
+import { LiquidMetalButton } from '../components/LiquidMetalButton';
 
 const title = 'Über uns – Bavaria Barber Regensburg seit 2006';
 const description = 'Bavaria Barber Regensburg: Seit 2006 am Galgenberg, geführt von Bakhtiyar Makos. Vierköpfiges Team, ein Handwerksverständnis – lernen Sie uns kennen.';
@@ -86,9 +87,14 @@ const werte = [
         Kommen Sie ohne Termin in die Furtmayrstraße 2 in Regensburg-Galgenberg vorbei und lernen Sie unser Team
         persönlich kennen. Alle Kontaktdaten und die Anfahrt finden Sie über den Link <a href="/kontakt" class="text-paper underline hover:text-stone-200">Kontakt und Anfahrt am Galgenberg</a>.
       </p>
-      <a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-paper px-7 text-base font-semibold text-wine hover:bg-stone-200">
-        {business.phone} anrufen
-      </a>
+      <div class="mt-6 flex justify-center">
+        <LiquidMetalButton
+          client:idle
+          label={`${business.phone} anrufen`}
+          href={`tel:${business.phoneHref.replace('tel:', '')}`}
+          variant="dark"
+        />
+      </div>
     </div>
   </section>
 </Layout>
