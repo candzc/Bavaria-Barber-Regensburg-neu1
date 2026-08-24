@@ -14,11 +14,14 @@ const description = 'Barber in Regensburg-Galgenberg: Herrenschnitt, Fade & Bart
 // Passende Icons + wechselnde Akzentfarbe (Gold/Weinrot-Soft) je Vorteil,
 // statt des bisher immer gleichen Häkchens — macht die Karten auf einen
 // Blick unterscheidbar statt gleichförmig.
+// Zwei Karten (Wartezeiten, Parkplätze — beide praktisch/vor-Ort-bezogen)
+// bekommen echte Salon-Fotos als Hintergrund statt der reinen Farbfläche,
+// analog zur Referenz (dort mischen sich Foto- und Flächen-Karten).
 const uspIcons = [
   { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' }, // Erfahrung: Uhr
   { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', glowClass: 'bg-wine/40', path: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>' }, // Spontan: Blitz
-  { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/>' }, // Wartezeiten: Stoppuhr
-  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', glowClass: 'bg-wine/40', path: '<path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>' }, // Parkplätze: Pin
+  { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/>', photo: '/images/salon-innenraum-wabendecke-1.jpg', photoAlt: 'Salonbereich mit Wabendecke bei Bavaria Barber Regensburg' }, // Wartezeiten: Stoppuhr
+  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', glowClass: 'bg-wine/40', path: '<path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>', photo: '/images/salon-innenraum-wabendecke-2.jpg', photoAlt: 'Empfangsbereich mit Wabendecke bei Bavaria Barber Regensburg' }, // Parkplätze: Pin
   { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3 3-5 7-5s7 2 7 5"/><path d="M16 15c3 0 6 2 6 5"/>' }, // Team
 ];
 
@@ -124,6 +127,19 @@ const jsonLd = [
           const icon = uspIcons[i % uspIcons.length];
           return (
             <li class="reveal group relative overflow-hidden rounded-card border border-paper/10 bg-stone-800/60 p-7 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-wine-soft/60 hover:shadow-2xl">
+              {icon.photo && (
+                <>
+                  <img
+                    src={icon.photo}
+                    alt={icon.photoAlt}
+                    class="absolute inset-0 h-full w-full object-cover opacity-35 transition-opacity duration-300 group-hover:opacity-50"
+                    width="900"
+                    height="1021"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-stone-800 via-stone-800/70 to-stone-800/40"></div>
+                </>
+              )}
               <div
                 class:list={['pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full blur-3xl transition-opacity duration-300 group-hover:opacity-80', icon.glowClass]}
                 aria-hidden="true"

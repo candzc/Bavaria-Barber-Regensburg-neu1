@@ -17,11 +17,11 @@ const werte = [
 <Layout title={title} description={description} path="/ueber-uns" altFont>
   <section class="relative flex min-h-[46vh] items-end overflow-hidden bg-ink">
     <img
-      src="/images/placeholder-ueber-uns-ziegel-textur.jpg"
-      alt="Schwarz-weiß fotografierte, verwitterte Ziegelwand als Symbol für Handwerk mit Geschichte"
+      src="/images/ueber-uns-bakhtiyar-hero.jpg"
+      alt="Bakhtiyar Makos schneidet im Salon Bavaria Barber Regensburg einem Kunden die Haare"
       class="absolute inset-0 h-full w-full object-cover opacity-40"
-      width="1600"
-      height="1067"
+      width="1920"
+      height="1280"
       loading="eager"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
@@ -47,15 +47,27 @@ const werte = [
   </section>
 
   <section class="border-t border-stone-200 bg-paper-dim">
-    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
-      <span class="eyebrow reveal">Geschichte</span>
-      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Vom Auszubildenden zum eigenen Salon</h2>
-      <p class="reveal mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-ink-soft">
-        Bakhtiyar Makos begann seine Laufbahn 2002 in einem bekannten Regensburger Friseursalon. 2006 eröffnete er
-        mit Bavaria Barber seinen ersten eigenen Salon in der Furtmayrstraße, den es dort bis heute gibt. 2016
-        folgte mit dem Makosan Haarstudio in der Maximilianstraße ein zweiter Standort in der Innenstadt, den er
-        ebenfalls führt.
-      </p>
+    <div class="mx-auto grid max-w-5xl gap-10 px-4 py-20 sm:px-6 sm:py-24 md:grid-cols-2 md:items-center">
+      <div class="reveal order-2 text-center md:order-1 md:text-left">
+        <span class="eyebrow">Geschichte</span>
+        <h2 class="mt-3 font-display text-2xl text-ink sm:text-3xl">Vom Auszubildenden zum eigenen Salon</h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink-soft">
+          Bakhtiyar Makos begann seine Laufbahn 2002 in einem bekannten Regensburger Friseursalon. 2006 eröffnete er
+          mit Bavaria Barber seinen ersten eigenen Salon in der Furtmayrstraße, den es dort bis heute gibt. 2016
+          folgte mit dem Makosan Haarstudio in der Maximilianstraße ein zweiter Standort in der Innenstadt, den er
+          ebenfalls führt.
+        </p>
+      </div>
+      <div class="reveal order-1 aspect-[3/2] overflow-hidden rounded-card md:order-2">
+        <img
+          src="/images/ueber-uns-bakhtiyar-geschichte.jpg"
+          alt="Bakhtiyar Makos, Inhaber von Bavaria Barber Regensburg, beim Haareschneiden im Salon"
+          class="h-full w-full object-cover"
+          width="1200"
+          height="800"
+          loading="lazy"
+        />
+      </div>
     </div>
   </section>
 
