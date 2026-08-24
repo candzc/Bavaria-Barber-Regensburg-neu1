@@ -1,5 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
-import { LiquidMetal } from '@paper-design/shaders-react';
+import { useLayoutEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
 
 export interface LiquidMetalButtonProps {
   label: string;
@@ -15,76 +14,31 @@ type InteractionState = 'resting' | 'hover' | 'pressed';
 // "Liquid Glass": immer transparenter Grund + dünner Rand, Schriftfarbe je
 // nach Hintergrund invertiert (variant="dark" -> auf dunklem Hintergrund,
 // darum helle/weiße Schrift; variant="light" -> auf hellem Hintergrund,
-// darum dunkle/schwarze Schrift), damit der Button auf jedem Untergrund
-// lesbar bleibt. Der LiquidMetal-Shader läuft nur noch als feiner, dezenter
-// Rand-Schimmer (siehe Ring-Layer weiter unten), nicht mehr als Flächenfüllung.
-const PALETTES: Record<'dark' | 'light', Record<InteractionState, { surface: string; border: string; text: string; colorBack: string; colorTint: string }>> = {
+// darum dunkle/schwarze Schrift). Der Rand ist ein rotierender Gold/Wein-
+// Farbverlauf per reinem CSS statt WebGL-Shader (siehe SESSION-NOTIZ unten:
+// der @paper-design/shaders-react-Ansatz erwies sich als zu unzuverlässig —
+// canUseShader/WebGL-Erkennung meldete zwar Erfolg, das Canvas blieb aber in
+// mehreren Testumgebungen leer, ohne Fehler. Ein reiner CSS-Verlauf rendert
+// garantiert identisch überall, ganz ohne WebGL-Abhängigkeit).
+const PALETTES: Record<'dark' | 'light', Record<InteractionState, { surface: string; text: string }>> = {
   dark: {
-    resting: {
-      surface: 'rgba(250,248,246,0.06)',
-      border: 'rgba(250,248,246,0.35)',
-      text: '#faf8f6',
-      colorBack: '#1c1a18',
-      colorTint: '#c9a34e',
-    },
-    hover: {
-      surface: 'rgba(250,248,246,0.12)',
-      border: 'rgba(250,248,246,0.55)',
-      text: '#faf8f6',
-      colorBack: '#1c1a18',
-      colorTint: '#c9a34e',
-    },
-    pressed: {
-      surface: 'rgba(250,248,246,0.16)',
-      border: 'rgba(250,248,246,0.65)',
-      text: '#faf8f6',
-      colorBack: '#1c1a18',
-      colorTint: '#c9a34e',
-    },
+    resting: { surface: 'rgba(250,248,246,0.06)', text: '#faf8f6' },
+    hover: { surface: 'rgba(250,248,246,0.12)', text: '#faf8f6' },
+    pressed: { surface: 'rgba(250,248,246,0.16)', text: '#faf8f6' },
   },
   light: {
-    resting: {
-      surface: 'rgba(28,26,24,0.04)',
-      border: 'rgba(28,26,24,0.25)',
-      text: '#1c1a18',
-      colorBack: '#faf8f6',
-      colorTint: '#c9a34e',
-    },
-    hover: {
-      surface: 'rgba(28,26,24,0.08)',
-      border: 'rgba(28,26,24,0.4)',
-      text: '#1c1a18',
-      colorBack: '#faf8f6',
-      colorTint: '#c9a34e',
-    },
-    pressed: {
-      surface: 'rgba(28,26,24,0.12)',
-      border: 'rgba(28,26,24,0.5)',
-      text: '#1c1a18',
-      colorBack: '#faf8f6',
-      colorTint: '#c9a34e',
-    },
+    resting: { surface: 'rgba(28,26,24,0.04)', text: '#1c1a18' },
+    hover: { surface: 'rgba(28,26,24,0.08)', text: '#1c1a18' },
+    pressed: { surface: 'rgba(28,26,24,0.12)', text: '#1c1a18' },
   },
 };
 
-const SPEED = { resting: 0.4, hover: 1, pressed: 1.4 };
+const SPIN_DURATION = { resting: '4s', hover: '1.6s', pressed: '1s' };
 
 interface Ripple {
   id: number;
   x: number;
   y: number;
-}
-
-// Fallback fuer Browser/Geraete ohne WebGL oder mit prefers-reduced-motion:
-// normaler CSS-Button ohne Shader-Layer, gleiche Farben/Groesse/Klickflaeche.
-function supportsWebGL(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
-  } catch {
-    return false;
-  }
 }
 
 export function LiquidMetalButton({
@@ -99,13 +53,7 @@ export function LiquidMetalButton({
   const [pillWidth, setPillWidth] = useState<number | null>(null);
   const [state, setState] = useState<InteractionState>('resting');
   const [ripples, setRipples] = useState<Ripple[]>([]);
-  const [canUseShader, setCanUseShader] = useState(false);
   const rippleId = useRef(0);
-
-  useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setCanUseShader(!reduceMotion && supportsWebGL());
-  }, []);
 
   // Dynamische Pill-Breite: Label-Breite per Canvas-Textmessung ermitteln
   // (nutzt den tatsaechlich gerenderten Font des Label-Elements), statt
@@ -144,26 +92,6 @@ export function LiquidMetalButton({
     onClick?.();
   };
 
-  // Low-Power-/No-JS-Fallback: einfacher transparenter Rand-Button, kein
-  // WebGL-Layer, aber dieselbe Transparenz + kontrastierende Schriftfarbe.
-  if (!canUseShader) {
-    const Tag = href ? 'a' : 'button';
-    return (
-      <Tag
-        href={href}
-        onClick={onClick}
-        className={`inline-flex min-h-[48px] items-center justify-center rounded-full border px-7 text-base font-semibold backdrop-blur-md transition-colors ${
-          variant === 'dark'
-            ? 'border-paper/35 bg-paper/5 text-paper hover:bg-paper/10'
-            : 'border-ink/25 bg-ink/[0.03] text-ink hover:bg-ink/[0.07]'
-        } ${isIcon ? 'aspect-square !px-0 w-12' : ''} ${className}`}
-        aria-label={isIcon ? label : undefined}
-      >
-        {isIcon ? <PhoneIcon /> : label}
-      </Tag>
-    );
-  }
-
   const Tag = href ? 'a' : 'button';
 
   return (
@@ -177,38 +105,34 @@ export function LiquidMetalButton({
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
       aria-label={isIcon ? label : undefined}
-      className={`relative inline-flex min-h-[48px] select-none items-center justify-center overflow-hidden rounded-full border backdrop-blur-md transition-[border-color,background-color,transform] duration-200 ${
+      className={`relative inline-flex min-h-[48px] select-none items-center justify-center overflow-hidden rounded-full backdrop-blur-md transition-[background-color,transform] duration-200 ${
         state === 'pressed' ? 'scale-[0.97]' : 'scale-100'
       } ${isIcon ? 'aspect-square w-12' : ''} ${className}`}
       style={{
         width: isIcon ? undefined : (pillWidth ?? undefined),
-        borderColor: palette.border,
         backgroundColor: palette.surface,
+        boxShadow: state === 'resting' ? '0 0 0 1px rgba(201,163,78,0.25)' : '0 0 14px rgba(201,163,78,0.45), 0 0 0 1px rgba(201,163,78,0.4)',
       }}
     >
-      {/* Shader-Ring-Layer: LiquidMetal nur als Rand sichtbar (Mask carved), dezenter Gold-Schimmer */}
+      {/* Rand-Layer: rotierender Gold/Wein-Verlauf, nur als Ring sichtbar
+          (mask-composite exclude spart die Innenfläche aus). Läuft per CSS-
+          Animation, pausiert unter prefers-reduced-motion (siehe globale
+          Regel in global.css, die alle animation-duration auf ~0 setzt). */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-[2px] rounded-full opacity-60"
+        className="pointer-events-none absolute inset-0 rounded-full"
         style={{
-          WebkitMaskImage:
-            'linear-gradient(#000 0 0)',
+          WebkitMaskImage: 'linear-gradient(#000 0 0)',
           WebkitMaskComposite: 'source-out',
           maskImage: 'linear-gradient(#000 0 0), linear-gradient(#000 0 0)',
           maskComposite: 'exclude',
           maskClip: 'padding-box, border-box',
-          padding: 3,
+          padding: 4,
         }}
       >
-        <LiquidMetal
-          style={{ width: '100%', height: '100%' }}
-          colorBack={palette.colorBack}
-          colorTint={palette.colorTint}
-          speed={SPEED[state]}
-          shape="metaballs"
-          softness={0.6}
-          contour={0.5}
-          distortion={0.15}
+        <span
+          className="liquid-glass-ring block h-[200%] w-[200%] -translate-x-1/4 -translate-y-1/4"
+          style={{ animationDuration: SPIN_DURATION[state] }}
         />
       </span>
 
@@ -217,7 +141,7 @@ export function LiquidMetalButton({
         <span
           key={r.id}
           aria-hidden="true"
-          className="pointer-events-none absolute rounded-full bg-paper/50"
+          className="pointer-events-none absolute rounded-full bg-gold/60"
           style={{
             left: r.x,
             top: r.y,
@@ -244,6 +168,16 @@ export function LiquidMetalButton({
         @keyframes liquid-metal-ripple {
           from { transform: scale(0); opacity: 0.5; }
           to { transform: scale(24); opacity: 0; }
+        }
+        @keyframes liquid-glass-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .liquid-glass-ring {
+          background: conic-gradient(from 0deg, #c9a34e, #e8c979, #c9a34e, #8a3540, #5e1c26, #8a3540, #c9a34e);
+          animation-name: liquid-glass-spin;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
         }
       `}</style>
     </Tag>

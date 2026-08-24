@@ -135,3 +135,20 @@ body.font-alt .font-display {
     transition: none;
   }
 }
+
+/* Weicher Übergang an harten Sektions-Farbwechseln: ein ~120px hoher
+   Verlauf von der Farbe der vorherigen Section zu transparent, oben an der
+   Section platziert (::before, außerhalb des normalen Layouts). Farbe der
+   vorherigen Section kommt als --blend-from (Hex/RGB) von der Section
+   selbst. Ersetzt keine bg-Farbe, überlagert nur die obersten ~120px. */
+.blend-top {
+  position: relative;
+}
+.blend-top::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 120px;
+  background: linear-gradient(to bottom, var(--blend-from) 0%, transparent 100%);
+  pointer-events: none;
+}

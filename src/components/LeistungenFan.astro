@@ -1,0 +1,115 @@
+---
+// Leistungen als gefächerter, überlappender Kartenstapel (Referenz-
+// Screenshots: nummerierte Bild-Karten im Fächer, die bei Hover/Fokus nach
+// vorne kommen und sich aufrichten). Bestehende Texte unverändert; Bilder
+// sind aktuell noch die vorhandenen Platzhalter (echte Salon-Fotos folgen
+// und werden hier eingesetzt, sobald sie als Datei vorliegen).
+interface LeistungBereich {
+  title: string;
+  text: string;
+  image: string;
+  alt: string;
+}
+
+interface Props {
+  items: LeistungBereich[];
+}
+
+const { items } = Astro.props;
+
+const rotations = ['-9deg', '-3deg', '3deg', '9deg'];
+---
+
+<div data-leistungen-fan class="mx-auto mt-14 max-w-5xl">
+  <div class="flex flex-wrap justify-center gap-x-[-3rem]">
+    {items.map((item, i) => (
+      <button
+        type="button"
+        data-fan-card
+        data-index={i}
+        style={`--fan-rotate:${rotations[i % rotations.length]};`}
+        class:list={[
+          'reveal group relative -ml-10 aspect-[3/4] w-52 shrink-0 overflow-hidden rounded-2xl border border-paper/10 shadow-xl outline-none first:ml-0 sm:w-64',
+          i === 0 && 'is-active',
+        ]}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        <img
+          src={item.image}
+          alt={item.alt}
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+          width="600"
+          height="800"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent"></div>
+        <span class="absolute right-3 top-3 rounded-full bg-ink/50 px-2.5 py-1 text-xs font-semibold text-paper backdrop-blur-sm">
+          {String(i + 1).padStart(2, '0')}/{String(items.length).padStart(2, '0')}
+        </span>
+        <span class="absolute inset-x-0 bottom-0 p-4 text-left font-display text-lg leading-tight text-paper">
+          {item.title}
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <div class="mx-auto mt-10 max-w-2xl text-left">
+    {items.map((item, i) => (
+      <p data-fan-text data-index={i} class:list={['text-lg leading-relaxed text-ink-soft', i !== 0 && 'hidden']}>
+        {item.text}
+      </p>
+    ))}
+  </div>
+</div>
+
+<style>
+  [data-fan-card] {
+    transform: rotate(var(--fan-rotate)) translateY(0.75rem) scale(0.94);
+    transition: transform 0.35s ease, filter 0.35s ease;
+    filter: brightness(0.75);
+    z-index: 1;
+    cursor: pointer;
+  }
+  [data-fan-card].is-active,
+  [data-fan-card]:hover,
+  [data-fan-card]:focus-visible {
+    transform: rotate(0deg) translateY(0) scale(1.03);
+    filter: brightness(1);
+    z-index: 10;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-fan-card] {
+      transition: none;
+    }
+  }
+  @media (max-width: 640px) {
+    [data-fan-card] {
+      transform: none !important;
+      filter: brightness(1) !important;
+      margin-left: 0 !important;
+    }
+  }
+</style>
+
+<script>
+  const cards = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-fan-card]'));
+  const texts = Array.from(document.querySelectorAll<HTMLElement>('[data-fan-text]'));
+
+  const activate = (index: number) => {
+    cards.forEach((c) => {
+      const isActive = c.dataset.index === String(index);
+      c.classList.toggle('is-active', isActive);
+      c.setAttribute('aria-pressed', String(isActive));
+    });
+    texts.forEach((t) => {
+      t.classList.toggle('hidden', t.dataset.index !== String(index));
+    });
+  };
+
+  cards.forEach((card) => {
+    const index = Number(card.dataset.index);
+    card.addEventListener('mouseenter', () => activate(index));
+    card.addEventListener('focus', () => activate(index));
+    card.addEventListener('click', () => activate(index));
+  });
+</script>
