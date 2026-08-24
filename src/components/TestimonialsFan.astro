@@ -1,0 +1,123 @@
+---
+// Gefächerte Testimonial-Karten (wie Referenz-Screenshot): leicht rotiert,
+// überlappend, in der Ruhelage dezent gefächert. Wackelt beim Hover (siehe
+// Script/Style unten) und bewegt sich beim Scrollen mit leichtem Parallax +
+// Fade — respektiert prefers-reduced-motion (dann nur einfaches Einblenden,
+// kein Wackeln/Parallax). Echte Google-Rezensionen aus site.ts, keine Fotos
+// (keine echten Kundenfotos vorhanden) — stattdessen Monogramm-Avatare.
+import { testimonials } from '../lib/site';
+
+const cardStyles = [
+  { bg: 'bg-wine', rotate: '-6deg', lift: '0.5rem' },
+  { bg: 'bg-ink', rotate: '-2deg', lift: '-0.75rem' },
+  { bg: 'bg-wine-soft', rotate: '2deg', lift: '-0.75rem' },
+  { bg: 'bg-stone-800', rotate: '6deg', lift: '0.5rem' },
+];
+---
+
+<div data-testimonial-fan class="mx-auto mt-14 flex max-w-4xl flex-wrap justify-center pb-6 pt-4">
+  {testimonials.map((t, i) => {
+    const style = cardStyles[i % cardStyles.length];
+    const initial = t.author.trim().charAt(0).toUpperCase();
+    return (
+      <blockquote
+        data-fan-card
+        style={`--fan-rotate:${style.rotate}; --fan-lift:${style.lift}; transition-delay:${i * 70}ms;`}
+        class:list={[
+          'reveal relative -ml-6 w-64 shrink-0 rounded-2xl p-6 text-left text-paper shadow-xl transition-transform duration-300 first:ml-0 sm:w-72',
+          style.bg,
+        ]}
+      >
+        <div class="flex h-10 w-10 items-center justify-center rounded-full border border-paper/30 bg-paper/15 font-display text-sm text-paper" aria-hidden="true">
+          {initial}
+        </div>
+        <p class="mt-4 text-sm leading-relaxed">{t.text}</p>
+        <cite class="mt-4 block text-xs font-semibold not-italic text-paper/85">— {t.author}, Google-Bewertung</cite>
+      </blockquote>
+    );
+  })}
+</div>
+
+<style>
+  [data-fan-card] {
+    transform: rotate(var(--fan-rotate)) translateY(calc(var(--fan-lift) + var(--fan-parallax, 0px)));
+    z-index: 1;
+  }
+  [data-fan-card]:hover,
+  [data-fan-card]:focus-within {
+    z-index: 10;
+    animation: fan-wobble 0.5s ease-in-out;
+  }
+  @keyframes fan-wobble {
+    0% { transform: rotate(var(--fan-rotate)) translateY(var(--fan-lift)) scale(1.04); }
+    20% { transform: rotate(calc(var(--fan-rotate) - 4deg)) translateY(calc(var(--fan-lift) - 6px)) scale(1.06); }
+    40% { transform: rotate(calc(var(--fan-rotate) + 3deg)) translateY(calc(var(--fan-lift) - 4px)) scale(1.06); }
+    60% { transform: rotate(calc(var(--fan-rotate) - 2deg)) translateY(calc(var(--fan-lift) - 6px)) scale(1.06); }
+    80% { transform: rotate(calc(var(--fan-rotate) + 1deg)) translateY(calc(var(--fan-lift) - 5px)) scale(1.05); }
+    100% { transform: rotate(var(--fan-rotate)) translateY(calc(var(--fan-lift) - 6px)) scale(1.05); }
+  }
+  /* .reveal (global.css) übernimmt das anfängliche Einblenden; hier zusätzlich
+     der Fächer-Rotate/Lift-Zustand, sobald sichtbar. */
+  .js [data-fan-card].reveal {
+    transform: rotate(var(--fan-rotate)) translateY(calc(var(--fan-lift) + 24px));
+  }
+  [data-fan-card].reveal.is-visible {
+    transform: rotate(var(--fan-rotate)) translateY(calc(var(--fan-lift) + var(--fan-parallax, 0px)));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-fan-card]:hover,
+    [data-fan-card]:focus-within {
+      animation: none;
+    }
+  }
+  @media (max-width: 640px) {
+    [data-fan-card] {
+      transform: none !important;
+      margin-left: 0 !important;
+    }
+    .js [data-fan-card].reveal {
+      transform: translateY(14px) !important;
+    }
+    [data-fan-card].reveal.is-visible {
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Dezenter Scroll-Parallax: Karten verschieben sich leicht gegeneinander
+  // und blenden zu den Rändern der Section hin etwas ab, respektiert
+  // prefers-reduced-motion (dann kein Parallax, nur der .reveal-Fade oben).
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const container = document.querySelector<HTMLElement>('[data-testimonial-fan]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-fan-card]'));
+
+  if (!prefersReducedMotion && container && cards.length && window.innerWidth > 640) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const rect = container.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const containerCenter = rect.top + rect.height / 2;
+      const distance = (containerCenter - viewportCenter) / viewportCenter;
+      cards.forEach((card, i) => {
+        const depth = (i - (cards.length - 1) / 2) * 6;
+        const parallax = distance * depth;
+        const opacity = Math.max(0.55, 1 - Math.abs(distance) * 0.5);
+        card.style.setProperty('--fan-parallax', `${parallax}px`);
+        card.style.opacity = card.classList.contains('is-visible') || !card.classList.contains('reveal') ? String(opacity) : '';
+      });
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+</script>

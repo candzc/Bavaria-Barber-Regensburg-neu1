@@ -15,9 +15,9 @@ interface WaveConfig {
 
 const highlightPills = ['Ohne Termin', 'Am Galgenberg', 'Vierköpfiges Team'] as const;
 
-const heroStats: { label: string; value: string }[] = [
+const heroStats: { label: string; value: string; star?: boolean }[] = [
   { label: 'Jahre Erfahrung', value: '20+' },
-  { label: 'Google-Bewertung', value: '4.8★' },
+  { label: 'Google-Bewertung', value: '4.8', star: true },
   { label: 'Rezensionen', value: business.reviewCount },
 ];
 
@@ -212,7 +212,10 @@ export function GlowyWavesHero() {
           <motion.div variants={statsVariants} className="mt-14 grid grid-cols-3 gap-6 border-t border-border pt-8">
             {heroStats.map((stat) => (
               <div key={stat.label}>
-                <div className="font-display text-2xl text-primary sm:text-3xl">{stat.value}</div>
+                <div className="font-display text-2xl text-primary sm:text-3xl">
+                  {stat.value}
+                  {stat.star && <span className="text-gold">★</span>}
+                </div>
                 <div className="mt-1 text-xs text-muted-foreground sm:text-sm">{stat.label}</div>
               </div>
             ))}

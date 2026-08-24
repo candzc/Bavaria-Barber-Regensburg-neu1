@@ -12,53 +12,57 @@ export interface LiquidMetalButtonProps {
 
 type InteractionState = 'resting' | 'hover' | 'pressed';
 
-// Zwei Farbpaletten (dark/light) je Interaktionszustand, aus dem bestehenden
-// Farbschema abgeleitet (Ink/Paper/Stone/Weinrot) statt generischer Metallic-Töne.
-const PALETTES: Record<'dark' | 'light', Record<InteractionState, { surface: string; text: string; ring: string; colorBack: string; colorTint: string }>> = {
+// "Liquid Glass": immer transparenter Grund + dünner Rand, Schriftfarbe je
+// nach Hintergrund invertiert (variant="dark" -> auf dunklem Hintergrund,
+// darum helle/weiße Schrift; variant="light" -> auf hellem Hintergrund,
+// darum dunkle/schwarze Schrift), damit der Button auf jedem Untergrund
+// lesbar bleibt. Der LiquidMetal-Shader läuft nur noch als feiner, dezenter
+// Rand-Schimmer (siehe Ring-Layer weiter unten), nicht mehr als Flächenfüllung.
+const PALETTES: Record<'dark' | 'light', Record<InteractionState, { surface: string; border: string; text: string; colorBack: string; colorTint: string }>> = {
   dark: {
     resting: {
-      surface: 'linear-gradient(135deg, #faf8f6 0%, #e4dfda 38%, #8a3540 72%, #faf8f6 100%)',
-      text: '#1c1a18',
-      ring: '0 0 0 1px rgba(94,28,38,0.25), 0 4px 18px rgba(94,28,38,0.22)',
+      surface: 'rgba(250,248,246,0.06)',
+      border: 'rgba(250,248,246,0.35)',
+      text: '#faf8f6',
       colorBack: '#1c1a18',
-      colorTint: '#8a3540',
+      colorTint: '#c9a34e',
     },
     hover: {
-      surface: 'linear-gradient(135deg, #ffffff 0%, #e4dfda 32%, #5e1c26 75%, #ffffff 100%)',
-      text: '#1c1a18',
-      ring: '0 0 0 1px rgba(94,28,38,0.4), 0 6px 26px rgba(94,28,38,0.35)',
+      surface: 'rgba(250,248,246,0.12)',
+      border: 'rgba(250,248,246,0.55)',
+      text: '#faf8f6',
       colorBack: '#1c1a18',
-      colorTint: '#5e1c26',
+      colorTint: '#c9a34e',
     },
     pressed: {
-      surface: 'linear-gradient(135deg, #e4dfda 0%, #b7afa7 38%, #43141c 72%, #e4dfda 100%)',
-      text: '#1c1a18',
-      ring: '0 0 0 1px rgba(67,20,28,0.5), 0 2px 8px rgba(67,20,28,0.3)',
+      surface: 'rgba(250,248,246,0.16)',
+      border: 'rgba(250,248,246,0.65)',
+      text: '#faf8f6',
       colorBack: '#1c1a18',
-      colorTint: '#43141c',
+      colorTint: '#c9a34e',
     },
   },
   light: {
     resting: {
-      surface: 'linear-gradient(135deg, #43141c 0%, #5e1c26 45%, #8a3540 72%, #1c1a18 100%)',
-      text: '#faf8f6',
-      ring: '0 0 0 1px rgba(28,26,24,0.12), 0 4px 18px rgba(94,28,38,0.3)',
+      surface: 'rgba(28,26,24,0.04)',
+      border: 'rgba(28,26,24,0.25)',
+      text: '#1c1a18',
       colorBack: '#faf8f6',
-      colorTint: '#5e1c26',
+      colorTint: '#c9a34e',
     },
     hover: {
-      surface: 'linear-gradient(135deg, #5e1c26 0%, #8a3540 45%, #b7afa7 72%, #43141c 100%)',
-      text: '#faf8f6',
-      ring: '0 0 0 1px rgba(28,26,24,0.16), 0 6px 26px rgba(94,28,38,0.4)',
+      surface: 'rgba(28,26,24,0.08)',
+      border: 'rgba(28,26,24,0.4)',
+      text: '#1c1a18',
       colorBack: '#faf8f6',
-      colorTint: '#8a3540',
+      colorTint: '#c9a34e',
     },
     pressed: {
-      surface: 'linear-gradient(135deg, #43141c 0%, #5e1c26 45%, #43141c 100%)',
-      text: '#faf8f6',
-      ring: '0 0 0 1px rgba(28,26,24,0.2), 0 2px 8px rgba(94,28,38,0.35)',
+      surface: 'rgba(28,26,24,0.12)',
+      border: 'rgba(28,26,24,0.5)',
+      text: '#1c1a18',
       colorBack: '#faf8f6',
-      colorTint: '#43141c',
+      colorTint: '#c9a34e',
     },
   },
 };
@@ -140,15 +144,18 @@ export function LiquidMetalButton({
     onClick?.();
   };
 
-  // Low-Power-/No-JS-Fallback: einfacher CSS-Button, kein WebGL-Layer.
+  // Low-Power-/No-JS-Fallback: einfacher transparenter Rand-Button, kein
+  // WebGL-Layer, aber dieselbe Transparenz + kontrastierende Schriftfarbe.
   if (!canUseShader) {
     const Tag = href ? 'a' : 'button';
     return (
       <Tag
         href={href}
         onClick={onClick}
-        className={`inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-base font-semibold transition-colors ${
-          variant === 'dark' ? 'bg-paper text-ink hover:bg-stone-200' : 'bg-wine text-paper hover:bg-wine-dark'
+        className={`inline-flex min-h-[48px] items-center justify-center rounded-full border px-7 text-base font-semibold backdrop-blur-md transition-colors ${
+          variant === 'dark'
+            ? 'border-paper/35 bg-paper/5 text-paper hover:bg-paper/10'
+            : 'border-ink/25 bg-ink/[0.03] text-ink hover:bg-ink/[0.07]'
         } ${isIcon ? 'aspect-square !px-0 w-12' : ''} ${className}`}
         aria-label={isIcon ? label : undefined}
       >
@@ -170,25 +177,19 @@ export function LiquidMetalButton({
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
       aria-label={isIcon ? label : undefined}
-      className={`relative inline-flex min-h-[48px] select-none items-center justify-center overflow-hidden rounded-full transition-[box-shadow,transform] duration-200 ${
+      className={`relative inline-flex min-h-[48px] select-none items-center justify-center overflow-hidden rounded-full border backdrop-blur-md transition-[border-color,background-color,transform] duration-200 ${
         state === 'pressed' ? 'scale-[0.97]' : 'scale-100'
       } ${isIcon ? 'aspect-square w-12' : ''} ${className}`}
       style={{
         width: isIcon ? undefined : (pillWidth ?? undefined),
-        boxShadow: palette.ring,
+        borderColor: palette.border,
+        backgroundColor: palette.surface,
       }}
     >
-      {/* Surface-Layer: Gradient-Grundflaeche der Pill */}
+      {/* Shader-Ring-Layer: LiquidMetal nur als Rand sichtbar (Mask carved), dezenter Gold-Schimmer */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-full transition-[background] duration-300"
-        style={{ background: palette.surface }}
-      />
-
-      {/* Shader-Ring-Layer: LiquidMetal nur als Rand sichtbar (Mask carved) */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-[3px] rounded-full opacity-90"
+        className="pointer-events-none absolute -inset-[2px] rounded-full opacity-60"
         style={{
           WebkitMaskImage:
             'linear-gradient(#000 0 0)',
