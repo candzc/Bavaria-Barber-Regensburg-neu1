@@ -15,11 +15,11 @@ const description = 'Barber in Regensburg-Galgenberg: Herrenschnitt, Fade & Bart
 // statt des bisher immer gleichen Häkchens — macht die Karten auf einen
 // Blick unterscheidbar statt gleichförmig.
 const uspIcons = [
-  { bgClass: 'bg-gold/20', textClass: 'text-gold', path: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' }, // Erfahrung: Uhr
-  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', path: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>' }, // Spontan: Blitz
-  { bgClass: 'bg-gold/20', textClass: 'text-gold', path: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/>' }, // Wartezeiten: Stoppuhr
-  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', path: '<path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>' }, // Parkplätze: Pin
-  { bgClass: 'bg-gold/20', textClass: 'text-gold', path: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3 3-5 7-5s7 2 7 5"/><path d="M16 15c3 0 6 2 6 5"/>' }, // Team
+  { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' }, // Erfahrung: Uhr
+  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', glowClass: 'bg-wine/40', path: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>' }, // Spontan: Blitz
+  { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/>' }, // Wartezeiten: Stoppuhr
+  { bgClass: 'bg-wine-soft/25', textClass: 'text-wine-soft', glowClass: 'bg-wine/40', path: '<path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>' }, // Parkplätze: Pin
+  { bgClass: 'bg-gold/20', textClass: 'text-gold', glowClass: 'bg-gold/30', path: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3 3-5 7-5s7 2 7 5"/><path d="M16 15c3 0 6 2 6 5"/>' }, // Team
 ];
 
 const jsonLd = [
@@ -81,7 +81,7 @@ const jsonLd = [
   </section>
 
   <!-- CTA früh -->
-  <section class="bg-wine">
+  <section class="blend-top bg-wine [--blend-from:var(--color-paper-dim)]">
     <div class="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-14">
       <p class="font-display text-xl text-paper sm:text-2xl">Spontan vorbeikommen statt Termin vereinbaren</p>
       <p class="mx-auto mt-2 max-w-2xl text-stone-200">
@@ -113,21 +113,26 @@ const jsonLd = [
     </a>
   </section>
 
-  <!-- Vorteile / USPs -->
-  <section class="border-t border-stone-200 bg-paper-dim">
+  <!-- Vorteile / USPs: dunkle Glow-Karten (Referenz: "Wir lernen Ihr
+       Geschäft kennen") — Weinrot statt Rot, echte USP-Inhalte aus site.ts -->
+  <section class="blend-top border-t border-stone-200 bg-ink [--blend-from:var(--color-paper)]">
     <div class="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-24">
       <span class="eyebrow reveal">Vorteile</span>
-      <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Was Bavaria Barber Regensburg für Sie leistet</h2>
+      <h2 class="reveal mt-3 font-display text-2xl text-paper sm:text-3xl">Was Bavaria Barber Regensburg für Sie leistet</h2>
       <ul class="mt-10 grid gap-5 text-left sm:grid-cols-2 lg:grid-cols-3">
         {usps.map((usp, i) => {
           const icon = uspIcons[i % uspIcons.length];
           return (
-            <li class="reveal rounded-card border border-wine/25 bg-stone-800 p-7 text-paper transition-all duration-200 hover:-translate-y-1 hover:border-wine hover:shadow-xl">
-              <div class:list={['flex h-10 w-10 items-center justify-center rounded-full', icon.bgClass, icon.textClass]} aria-hidden="true">
+            <li class="reveal group relative overflow-hidden rounded-card border border-paper/10 bg-stone-800/60 p-7 text-paper backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-wine-soft/60 hover:shadow-2xl">
+              <div
+                class:list={['pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full blur-3xl transition-opacity duration-300 group-hover:opacity-80', icon.glowClass]}
+                aria-hidden="true"
+              ></div>
+              <div class:list={['relative flex h-10 w-10 items-center justify-center rounded-full', icon.bgClass, icon.textClass]} aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.path} />
               </div>
-              <p class="font-display mt-4 text-lg text-paper">{usp.title}</p>
-              <p class="mt-2 text-sm leading-relaxed text-stone-400">{usp.text}</p>
+              <p class="font-display relative mt-4 text-lg text-paper">{usp.title}</p>
+              <p class="relative mt-2 text-sm leading-relaxed text-stone-400">{usp.text}</p>
             </li>
           );
         })}
@@ -136,7 +141,7 @@ const jsonLd = [
   </section>
 
   <!-- Testimonials -->
-  <section class="mx-auto max-w-6xl overflow-hidden px-4 py-20 text-center sm:px-6 sm:py-24">
+  <section class="blend-top mx-auto max-w-6xl overflow-hidden px-4 py-20 text-center sm:px-6 sm:py-24 [--blend-from:var(--color-ink)]">
     <span class="eyebrow reveal">Kundenstimmen</span>
     <h2 class="reveal mt-3 font-display text-2xl text-ink sm:text-3xl">Das sagen Kunden über ihren Besuch am Galgenberg</h2>
     <TestimonialsFan />
@@ -155,7 +160,7 @@ const jsonLd = [
   </section>
 
   <!-- CTA wiederholt -->
-  <section class="bg-ink">
+  <section class="blend-top bg-ink [--blend-from:var(--color-paper-dim)]">
     <div class="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-24">
       <h2 class="font-display text-2xl text-paper sm:text-3xl">So erreichen Sie Ihren Barber in Regensburg</h2>
       <p class="mx-auto mt-4 max-w-2xl text-stone-200">

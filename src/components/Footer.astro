@@ -6,8 +6,15 @@ const year = new Date().getFullYear();
 <footer class="relative overflow-hidden bg-paper text-ink-soft">
   <!-- Dezenter Weinrot-Glow hinter dem weißen Glas-Panel — gibt dem
        backdrop-blur etwas zum Weichzeichnen, sonst bliebe die "Glas"-Wirkung
-       unsichtbar. -->
-  <div class="pointer-events-none absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-wine/15 blur-3xl" aria-hidden="true"></div>
+       unsichtbar. Driftet langsam (CSS-Loop) und verschiebt sich zusätzlich
+       leicht per Scroll-Parallax (Script unten) — respektiert
+       prefers-reduced-motion (beides dann aus, siehe globale Regel und
+       JS-Check). -->
+  <div
+    data-footer-glow
+    class="footer-glow-drift pointer-events-none absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-wine/15 blur-3xl"
+    aria-hidden="true"
+  ></div>
 
   <div class="relative mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <!-- Glas-Panel: weißes/transparentes backdrop-blur statt der dunklen
@@ -64,3 +71,43 @@ const year = new Date().getFullYear();
     © {year} {business.legalName}
   </div>
 </footer>
+
+<style>
+  @keyframes footer-glow-drift {
+    0%, 100% { transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+    50% { transform: translate(-50%, -50%) translate(4%, 6%) scale(1.08); }
+  }
+  .footer-glow-drift {
+    animation: footer-glow-drift 14s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  // Leichter Scroll-Parallax auf dem Glow-Blob: verschiebt sich minimal
+  // relativ zur Footer-Position im Viewport. Ergänzt die CSS-Drift-Loop
+  // oben, respektiert prefers-reduced-motion (dann kein JS-Offset).
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const glow = document.querySelector<HTMLElement>('[data-footer-glow]');
+  const footer = glow?.closest('footer');
+
+  if (!prefersReducedMotion && glow && footer) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const rect = footer.getBoundingClientRect();
+      const progress = 1 - Math.min(1, Math.max(0, rect.top / window.innerHeight));
+      glow.style.top = `${progress * 24}px`;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+</script>

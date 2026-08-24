@@ -152,7 +152,7 @@ export function GlowyWavesHero() {
 
   return (
     <section
-      className="relative isolate flex min-h-[80vh] w-full items-center justify-center overflow-hidden bg-background"
+      className="blend-top relative isolate flex min-h-[80vh] w-full items-center justify-center overflow-hidden bg-background [--blend-from:var(--color-ink)]"
       role="region"
       aria-label="Bavaria Barber Regensburg – Vorstellung"
     >
