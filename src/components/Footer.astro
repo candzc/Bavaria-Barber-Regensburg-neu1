@@ -3,42 +3,42 @@ import { mainNav, legalNav, business, fullAddress, openingHours } from '../lib/s
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative overflow-hidden bg-ink text-stone-200">
-  <!-- Dezenter Weinrot-Glow hinter dem Glas-Panel — gibt dem backdrop-blur
-       etwas zum Weichzeichnen, sonst bliebe die "Glas"-Wirkung unsichtbar. -->
-  <div class="pointer-events-none absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-wine/30 blur-3xl" aria-hidden="true"></div>
+<footer class="relative overflow-hidden bg-paper text-ink-soft">
+  <!-- Dezenter Weinrot-Glow hinter dem weißen Glas-Panel — gibt dem
+       backdrop-blur etwas zum Weichzeichnen, sonst bliebe die "Glas"-Wirkung
+       unsichtbar. -->
+  <div class="pointer-events-none absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-wine/15 blur-3xl" aria-hidden="true"></div>
 
   <div class="relative mx-auto max-w-6xl px-4 py-10 sm:px-6">
-    <!-- Glas-Panel: backdrop-blur + halbtransparenter Ink-Ton + Rand-Highlight,
-         kein SVG-Verzerrungseffekt (bewusst, siehe Absprache) — bleibt
-         zurückhaltend und passt sich dem bestehenden Designsystem an. -->
-    <div class="rounded-card border border-paper/10 bg-ink/60 p-8 shadow-2xl backdrop-blur-xl [box-shadow:inset_0_1px_0_rgba(255,255,255,0.08),0_20px_60px_-20px_rgba(0,0,0,0.6)] sm:p-10">
+    <!-- Glas-Panel: weißes/transparentes backdrop-blur statt der dunklen
+         Ink-Variante — kein SVG-Verzerrungseffekt (bewusst, siehe Absprache). -->
+    <div class="rounded-card border border-ink/10 bg-paper/60 p-8 shadow-2xl backdrop-blur-xl [box-shadow:inset_0_1px_0_rgba(255,255,255,0.6),0_20px_60px_-20px_rgba(28,26,24,0.15)] sm:p-10">
       <div class="grid gap-10 md:grid-cols-4">
         <div>
-          <p class="font-display text-lg text-paper">Bavaria Barber Regensburg</p>
-          <p class="mt-3 text-sm leading-relaxed text-stone-400">
+          <p class="font-display text-lg text-ink">Bavaria Barber Regensburg</p>
+          <p class="mt-3 text-sm leading-relaxed text-stone-600">
             Herrenfriseur und Barber am Galgenberg — seit {business.founded} Handwerk mit Anspruch.
           </p>
         </div>
 
         <nav aria-label="Footer-Navigation">
-          <p class="text-sm font-semibold text-paper">Navigation</p>
+          <p class="text-sm font-semibold text-ink">Navigation</p>
           <ul class="mt-3 space-y-2 text-sm">
             {mainNav.map((item) => (
-              <li><a href={item.href} class="text-stone-400 transition-colors hover:text-paper">{item.label}</a></li>
+              <li><a href={item.href} class="text-stone-600 transition-colors hover:text-ink">{item.label}</a></li>
             ))}
           </ul>
         </nav>
 
         <div>
-          <p class="text-sm font-semibold text-paper">Kontakt</p>
-          <address class="mt-3 space-y-2 text-sm not-italic text-stone-400">
+          <p class="text-sm font-semibold text-ink">Kontakt</p>
+          <address class="mt-3 space-y-2 text-sm not-italic text-stone-600">
             <p>{fullAddress}</p>
-            <p><a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="transition-colors hover:text-paper">{business.phone}</a></p>
-            <p><a href={`mailto:${business.email}`} class="transition-colors hover:text-paper">{business.email}</a></p>
+            <p><a href={`tel:${business.phoneHref.replace('tel:', '')}`} class="transition-colors hover:text-ink">{business.phone}</a></p>
+            <p><a href={`mailto:${business.email}`} class="transition-colors hover:text-ink">{business.email}</a></p>
           </address>
-          <p class="mt-4 text-sm font-semibold text-paper">Öffnungszeiten</p>
-          <ul class="mt-2 space-y-1 text-sm text-stone-400">
+          <p class="mt-4 text-sm font-semibold text-ink">Öffnungszeiten</p>
+          <ul class="mt-2 space-y-1 text-sm text-stone-600">
             {openingHours.map((d) => (
               <li class="flex justify-between gap-4">
                 <span>{d.day}</span>
@@ -49,10 +49,10 @@ const year = new Date().getFullYear();
         </div>
 
         <div>
-          <p class="text-sm font-semibold text-paper">Rechtliches</p>
+          <p class="text-sm font-semibold text-ink">Rechtliches</p>
           <ul class="mt-3 space-y-2 text-sm">
             {legalNav.map((item) => (
-              <li><a href={item.href} class="text-stone-400 transition-colors hover:text-paper">{item.label}</a></li>
+              <li><a href={item.href} class="text-stone-600 transition-colors hover:text-ink">{item.label}</a></li>
             ))}
           </ul>
         </div>
@@ -60,7 +60,7 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
-  <div class="relative border-t border-stone-800 px-4 py-5 text-center text-xs text-stone-600 sm:px-6">
+  <div class="relative border-t border-stone-200 px-4 py-5 text-center text-xs text-stone-600 sm:px-6">
     © {year} {business.legalName}
   </div>
 </footer>

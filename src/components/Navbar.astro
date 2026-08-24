@@ -11,13 +11,9 @@ const currentPath = Astro.url.pathname;
 <header data-navbar class="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-colors duration-300 sm:px-4 sm:pt-4">
   <div
     data-navbar-pill
-    class="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-paper/10 bg-ink/95 px-4 py-3 shadow-lg backdrop-blur transition-all duration-300 sm:px-6"
+    class="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center rounded-full border border-paper/10 bg-ink/95 px-4 py-3 shadow-lg backdrop-blur transition-all duration-300 sm:px-6 min-[900px]:grid-cols-[1fr_auto_1fr]"
   >
-    <a href="/" class="font-display text-lg font-semibold tracking-wide text-paper sm:text-xl">
-      Bavaria
-    </a>
-
-    <nav aria-label="Hauptnavigation" class="hidden items-center gap-1 min-[900px]:flex">
+    <nav aria-label="Hauptnavigation" class="col-start-2 hidden items-center gap-1 justify-self-center min-[900px]:flex">
       {mainNav.map((item) => (
         <a
           href={item.href}
@@ -31,20 +27,21 @@ const currentPath = Astro.url.pathname;
           {item.label}
         </a>
       ))}
-      <div class="ml-3">
-        <LiquidMetalButton
-          client:idle
-          label={business.phone}
-          href={`tel:${business.phoneHref.replace('tel:', '')}`}
-          variant="dark"
-        />
-      </div>
     </nav>
+
+    <div class="col-start-2 hidden justify-self-end min-[900px]:block min-[900px]:col-start-3">
+      <LiquidMetalButton
+        client:idle
+        label={business.phone}
+        href={`tel:${business.phoneHref.replace('tel:', '')}`}
+        variant="dark"
+      />
+    </div>
 
     <button
       id="menu-toggle"
       type="button"
-      class="flex h-11 w-11 items-center justify-center rounded-full text-paper transition-colors duration-200 hover:bg-paper/10 min-[900px]:hidden"
+      class="col-start-2 flex h-11 w-11 items-center justify-self-end justify-center rounded-full text-paper transition-colors duration-200 hover:bg-paper/10 min-[900px]:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Menü öffnen"
